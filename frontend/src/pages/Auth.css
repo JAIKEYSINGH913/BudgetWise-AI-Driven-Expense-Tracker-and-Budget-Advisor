@@ -1,0 +1,287 @@
+.auth-page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  padding: 20px;
+}
+
+.auth-header {
+  position: absolute;
+  top: 30px;
+  right: 30px;
+  z-index: 1000;
+}
+
+.auth-container {
+  position: relative;
+  z-index: 10;
+  margin-top: 0;
+  margin-bottom: 0;
+
+
+  /* UXMisfit Glass Style (Dark Mode) */
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0)) !important;
+  backdrop-filter: blur(40px) !important;
+  -webkit-backdrop-filter: blur(40px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.18) !important;
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37) !important;
+  border-radius: 20px !important;
+}
+
+/* Light Mode Auth Container (Thick Plain Glass - Black Border) */
+:root[data-theme="light"] .auth-container {
+  background: rgba(255, 255, 255, 0.15) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  border: 1px solid rgba(0, 0, 0, 0.6) !important;
+  border-bottom: 4px solid rgba(0, 0, 0, 0.3) !important;
+  border-right: 3px solid rgba(0, 0, 0, 0.3) !important;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05) !important;
+  border-radius: 16px !important;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.auth-branding {
+  text-align: center;
+  margin-bottom: 40px;
+  padding-bottom: 30px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.brand-title {
+  font-size: 2.5rem;
+  font-weight: 300;
+  color: var(--text-primary);
+  margin-bottom: 8px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  font-family: inherit;
+}
+
+.brand-subtitle {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  font-weight: 400;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-top: 8px;
+}
+
+.auth-heading {
+  font-size: 1.5rem;
+  font-weight: 300;
+  color: var(--text-primary);
+  text-align: center;
+  margin-bottom: 12px;
+  letter-spacing: 1px;
+}
+
+.auth-description {
+  font-size: 0.875rem;
+  color: var(--text-muted);
+  text-align: center;
+  margin-bottom: 40px;
+  line-height: 1.6;
+  font-weight: 400;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.auth-footer {
+  text-align: center;
+  margin-top: 30px;
+  padding-top: 30px;
+  border-top: 1px solid var(--border-color);
+}
+
+.auth-footer span {
+  font-size: 12px;
+  color: var(--text-secondary);
+  letter-spacing: 0.5px;
+}
+
+@media (max-width: 768px) {
+  .auth-header {
+    top: 20px;
+    right: 20px;
+  }
+
+  .brand-title {
+    font-size: 2rem;
+    letter-spacing: 3px;
+  }
+
+  .auth-heading {
+    font-size: 1.3rem;
+  }
+
+  .auth-description {
+    font-size: 0.8rem;
+  }
+}
+
+.password-container {
+  position: relative;
+  width: 100%;
+}
+
+.password-toggle-icon {
+  position: absolute;
+  top: 35%;
+  right: 10px;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: #666;
+  font-size: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  line-height: 0;
+}
+
+.password-toggle-icon:hover {
+  color: #333;
+}
+
+.form-group input[type="password"],
+.form-group input[type="text"] {
+  width: 100%;
+  padding-right: 40px;
+  /* Make space for the icon */
+}
+
+/* --- Theme-Aware Glassy Bubbles --- */
+
+.auth-page {
+  /* Ensure overflow is hidden so bubbles don't cause scrollbars */
+  overflow: hidden;
+  /* Maintain relative positioning for absolute children */
+  position: relative;
+}
+
+/* OTP Modal Logic (Copied from Profile.css for Auth Pages) */
+.otp-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+  /* Higher than auth header */
+  backdrop-filter: blur(5px);
+}
+
+.otp-modal {
+  /* Glass Style - Default/Dark Mode Base */
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0));
+  backdrop-filter: blur(40px);
+  -webkit-backdrop-filter: blur(40px);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+  padding: 30px;
+  border-radius: 20px;
+  text-align: center;
+  width: 90%;
+  max-width: 400px;
+  color: white;
+  /* Force white text for glass on dark/gradient backgrounds */
+}
+
+/* Light Mode OTP Modal */
+body[data-theme="light"] .otp-modal {
+  background: rgba(255, 255, 255, 0.6);
+  /* Slightly more opaque for readability */
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(0, 0, 0, 0.6);
+  border-bottom: 4px solid rgba(0, 0, 0, 0.3);
+  border-right: 3px solid rgba(0, 0, 0, 0.3);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+  color: #2d3436;
+}
+
+.otp-input {
+  width: 100%;
+  padding: 15px;
+  font-size: 1.5rem;
+  text-align: center;
+  letter-spacing: 5px;
+  margin: 20px 0;
+  border-radius: 10px;
+  border: 2px solid var(--primary-color, #6c5ce7);
+  background: transparent;
+  color: var(--text-primary, #2d3436);
+}
+
+body[data-theme="dark"] .otp-input {
+  color: white;
+}
+
+.otp-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
+  margin-top: 15px;
+}
+
+.btn-verify-confirm,
+.btn-cancel {
+  padding: 10px 20px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+  transition: transform 0.2s;
+}
+
+.btn-verify-confirm:hover,
+.btn-cancel:hover {
+  transform: scale(1.05);
+}
+
+.btn-verify-confirm {
+  background: var(--primary-color, #6c5ce7);
+  color: white;
+}
+
+.btn-cancel {
+  background: #e74c3c;
+  color: white;
+}
+
+.btn-link {
+  background: none;
+  border: none;
+  color: var(--primary-color, #6c5ce7);
+  text-decoration: underline;
+  cursor: pointer;
+  font-size: 0.9rem;
+  margin-top: 10px;
+  display: block;
+  width: 100%;
+}

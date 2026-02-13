@@ -1,0 +1,98 @@
+/* ThemeToggle.css - Professional Glass Design */
+/* Light Mode -> Dark Floating Background */
+[data-theme="light"] .theme-toggle {
+  background: rgba(0, 0, 0, 0.85);
+  /* Dark background in light mode */
+  border-color: rgba(0, 0, 0, 0.2);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Dark Mode -> Light Floating Background */
+[data-theme="dark"] .theme-toggle {
+  background: rgba(255, 255, 255, 0.9);
+  /* Light background in dark mode */
+  border-color: rgba(255, 255, 255, 0.8);
+  box-shadow: 0 4px 20px rgba(255, 255, 255, 0.15);
+}
+
+.theme-toggle {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  width: 64px;
+  height: 34px;
+  /* Default fallback */
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 34px;
+  cursor: pointer;
+  padding: 2px;
+  z-index: 9999;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.theme-toggle:hover {
+  box-shadow: 0 4px 25px rgba(0, 0, 0, 0.15);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.theme-toggle-slider {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  border-radius: 30px;
+}
+
+.toggle-knob {
+  width: 28px;
+  height: 28px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Light Mode State */
+.theme-toggle-slider.light .toggle-knob {
+  left: 2px;
+  background: rgba(255, 255, 255, 0.9);
+  /* Solid glass for knob */
+}
+
+/* Dark Mode State */
+.theme-toggle-slider.dark .toggle-knob {
+  left: calc(100% - 30px);
+  /* 64px width - 2px padding - 28px knob - 2px extra gap? -> 32px? adjusted */
+  background: rgba(0, 0, 0, 0.6);
+  /* Dark glass for knob */
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.toggle-icon {
+  font-size: 14px;
+}
+
+.toggle-icon.sun {
+  color: #f59e0b;
+  /* Professional Amber */
+}
+
+.toggle-icon.moon {
+  color: #e2e8f0;
+  /* Soft White */
+}
+
+/* Hover effects on knob */
+.theme-toggle:hover .toggle-knob {
+  transform: translateY(-50%) scale(1.05);
+}

@@ -1,0 +1,33 @@
+# Backend - Java/Maven
+target/
+*.class
+.mvn/
+*.log
+backend/uploads/
+backend/.env
+
+# Frontend - Node/React
+node_modules/
+build/
+dist/
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# IDEs
+.vscode/
+.idea/
+*.iml
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Misc
+.gemini/
+.agent/
+brain/
