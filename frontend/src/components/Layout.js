@@ -7,6 +7,7 @@ import { API_BASE_URL } from '../utils/apiConfig';
 import Sidebar from './Sidebar';
 import FloatingStickers from './FloatingStickers';
 import BackgroundBubbles from './BackgroundBubbles';
+import Footer from './Footer';
 import '../pages/Home.css'; // Reusing global app styles including Navbar
 
 const Layout = () => {
@@ -93,6 +94,7 @@ const Layout = () => {
                 pauseOnHover
                 theme="dark"
             />
+            <Footer />
         </div >
     );
 };
