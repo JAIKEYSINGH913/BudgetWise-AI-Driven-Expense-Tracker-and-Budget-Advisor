@@ -25,7 +25,7 @@ services:
         value: 86400000
 
   # Frontend Service
-  - type: static
+  - type: web
     name: budgetwise-frontend
     env: static
     buildCommand: cd frontend && npm install && npm run build
