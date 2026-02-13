@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Routes, Route, useLocation, Link } from 'react-router-dom';
 import DataManager from '../utils/DataManager';
 import { handleSuccess, handleError } from '../utils';
+import { API_BASE_URL } from '../utils/apiConfig';
 import './Home.css';
 import {
     FaWallet, FaChartLine, FaMoneyBillWave, FaExchangeAlt,
@@ -494,7 +495,7 @@ const ProfileOverview = () => {
             formData.append('removeBackgroundImage', 'true');
             formData.append('removeCustomization', 'true'); // New flag to clear colors
 
-            const url = "http://localhost:8080/auth/profile/update";
+            const url = `${API_BASE_URL}/auth/profile/update`;
             await fetch(url, {
                 method: "PUT",
                 headers: { 'Authorization': localStorage.getItem('token') },
@@ -517,7 +518,7 @@ const ProfileOverview = () => {
         }
 
         try {
-            const url = "http://localhost:8080/auth/profile/update";
+            const url = `${API_BASE_URL}/auth/profile/update`;
             const response = await fetch(url, {
                 method: "PUT",
                 headers: {
@@ -540,7 +541,7 @@ const ProfileOverview = () => {
                 // Apply Application Gloabally
                 if (customize.backgroundColor) document.documentElement.style.setProperty('--app-bg-color', customize.backgroundColor);
                 if (result.profile.backgroundImageUrl) {
-                    document.documentElement.style.setProperty('--app-bg-image', `url(http://localhost:8080/${result.profile.backgroundImageUrl})`);
+                    document.documentElement.style.setProperty('--app-bg-image', `url(${API_BASE_URL}/${result.profile.backgroundImageUrl})`);
                 }
 
                 // Apply Navbar & Sidebar Colors
