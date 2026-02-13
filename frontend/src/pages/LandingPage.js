@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { FaWallet, FaChartLine, FaPiggyBank, FaShieldAlt } from 'react-icons/fa';
 import DemoLock from '../components/DemoLock';
 import FloatingStickers from '../components/FloatingStickers';
+import Footer from '../components/Footer';
 import './LandingPage.css';
 
 const LandingPage = () => {
@@ -142,6 +143,7 @@ const LandingPage = () => {
                     </div>
                 </div>
             </section>
+            <Footer />
         </div>
     );
 };

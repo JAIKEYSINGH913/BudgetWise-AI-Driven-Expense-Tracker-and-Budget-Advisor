@@ -6,6 +6,7 @@ import { API_BASE_URL } from '../utils/apiConfig';
 import ThemeToggle from '../components/ThemeToggle';
 import FloatingStickers from '../components/FloatingStickers';
 import BackgroundBubbles from '../components/BackgroundBubbles';
+import Footer from '../components/Footer';
 import './Auth.css';
 import { useSound } from '../context/SoundContext';
 
@@ -407,6 +408,7 @@ function Login() {
                 pauseOnHover
                 toastClassName="custom-toast"
             />
+            <Footer />
         </div>
     )
 }
