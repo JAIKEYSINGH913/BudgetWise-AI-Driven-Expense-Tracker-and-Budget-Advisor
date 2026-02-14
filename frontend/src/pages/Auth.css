@@ -43,6 +43,16 @@
   border-radius: 16px !important;
 }
 
+@media (max-width: 480px) {
+
+  .auth-container,
+  .container {
+    width: 95% !important;
+    padding: 20px !important;
+    margin: 10px auto !important;
+  }
+}
+
 @keyframes fadeInUp {
   from {
     opacity: 0;

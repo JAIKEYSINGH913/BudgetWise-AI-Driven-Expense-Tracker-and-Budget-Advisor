@@ -61,6 +61,39 @@
     /* Allow flyouts to show outside */
 }
 
+@media (max-width: 768px) {
+    .sidebar-panel {
+        width: 90%;
+        /* Responsive width for mobile */
+        right: 5%;
+        /* Center horizontally */
+        height: auto;
+        max-height: 80vh;
+        overflow-y: auto;
+    }
+
+    /* On mobile, flyout might need to be an accordion or overlap */
+    .flyout-menu {
+        position: relative;
+        left: 0;
+        top: 0;
+        width: 100%;
+        transform: none;
+        opacity: 1;
+        visibility: visible;
+        display: none;
+        /* Hidden by default, toggled via JS if possible, or just stack */
+        box-shadow: none;
+        background: rgba(255, 255, 255, 0.05);
+        margin-top: 10px;
+    }
+
+    .menu-group:hover .flyout-menu {
+        display: block;
+        /* SImple hover for now, ideally click */
+    }
+}
+
 /* In Dark Mode (Default) -> Light Glass Effect */
 /* In Dark Mode (Default) -> UXMisfit Glass */
 /* Dark Mode specific overrides removed to enforce base opaque style */
