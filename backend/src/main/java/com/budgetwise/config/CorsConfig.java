@@ -10,9 +10,10 @@ public class CorsConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
-                .allowedOrigins("*") // In production, replace "*" with your frontend domain
+                .allowedOrigins("https://budgetwise-ai-driven-expense-tracker-and-o6ax.onrender.com",
+                        "http://localhost:3000")
                 .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                 .allowedHeaders("*")
-                .allowCredentials(false); // If true, allowedOrigins cannot be "*"
+                .allowCredentials(true);
     }
 }
