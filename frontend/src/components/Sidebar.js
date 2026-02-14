@@ -3,6 +3,7 @@ import { FaTimes, FaHome, FaChartPie, FaSignOutAlt, FaWallet, FaTags, FaFileAlt,
 import { useNavigate } from 'react-router-dom';
 import './Sidebar.css';
 import { useSound } from '../context/SoundContext';
+import { API_BASE_URL } from '../utils/apiConfig';
 
 const Sidebar = ({ isOpen, onClose, handleLogout }) => {
     const navigate = useNavigate();
@@ -132,7 +133,7 @@ const Sidebar = ({ isOpen, onClose, handleLogout }) => {
                     <div className="user-profile-preview" onClick={() => handleNavigation('/profile')} onMouseEnter={playHover} style={{ cursor: 'pointer' }}>
                         {localStorage.getItem('loggedInUserImage') ? (
                             <img
-                                src={`http://localhost:8080/${localStorage.getItem('loggedInUserImage')}`}
+                                src={`${API_BASE_URL}/${localStorage.getItem('loggedInUserImage')}`}
                                 alt="Profile"
                                 style={{ width: '30px', height: '30px', borderRadius: '50%', marginRight: '10px', objectFit: 'cover' }}
                             />

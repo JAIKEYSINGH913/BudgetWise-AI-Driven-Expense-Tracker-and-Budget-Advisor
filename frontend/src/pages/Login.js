@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import { handleError, handleSuccess } from '../utils';
+import { API_BASE_URL } from '../utils/apiConfig';
 import ThemeToggle from '../components/ThemeToggle';
 import FloatingStickers from '../components/FloatingStickers';
 import BackgroundBubbles from '../components/BackgroundBubbles';
@@ -41,7 +42,7 @@ function Login() {
             return handleError('email and password are required')
         }
         try {
-            const url = `http://localhost:8080/auth/login`;
+            const url = `${API_BASE_URL}/auth/login`;
             const response = await fetch(url, {
                 method: "POST",
                 headers: {
@@ -106,7 +107,7 @@ function Login() {
     const handleVerifyOtp = async () => {
         if (!otp || !emailForVerification) return handleError("Please enter email and OTP");
         try {
-            const url = `http://localhost:8080/auth/verify-otp`;
+            const url = `${API_BASE_URL}/auth/verify-otp`;
             const response = await fetch(url, {
                 method: "POST",
                 headers: { 'Content-Type': 'application/json' },
@@ -128,7 +129,7 @@ function Login() {
     const handleResendOtp = async () => {
         if (!emailForVerification) return handleError("Please enter your email first");
         try {
-            const url = `http://localhost:8080/auth/resend-otp?email=${encodeURIComponent(emailForVerification)}`;
+            const url = `${API_BASE_URL}/auth/resend-otp?email=${encodeURIComponent(emailForVerification)}`;
             const response = await fetch(url, { method: "POST" });
             const result = await response.json();
             if (result.success) {
@@ -145,7 +146,7 @@ function Login() {
     const handleForgotRequest = async () => {
         if (!emailForVerification) return handleError("Please enter your email or username");
         try {
-            const url = `http://localhost:8080/auth/forgot-password`;
+            const url = `${API_BASE_URL}/auth/forgot-password`;
             const response = await fetch(url, {
                 method: "POST",
                 headers: { 'Content-Type': 'application/json' },
@@ -167,7 +168,7 @@ function Login() {
     const handleForgotVerify = async () => {
         if (!otp) return handleError("Please enter OTP");
         try {
-            const url = `http://localhost:8080/auth/verify-reset-otp`;
+            const url = `${API_BASE_URL}/auth/verify-reset-otp`;
             const response = await fetch(url, {
                 method: "POST",
                 headers: { 'Content-Type': 'application/json' },
@@ -191,7 +192,7 @@ function Login() {
         if (newPassword !== confirmPassword) return handleError("Passwords do not match");
 
         try {
-            const url = `http://localhost:8080/auth/reset-password`;
+            const url = `${API_BASE_URL}/auth/reset-password`;
             const response = await fetch(url, {
                 method: "POST",
                 headers: { 'Content-Type': 'application/json' },
