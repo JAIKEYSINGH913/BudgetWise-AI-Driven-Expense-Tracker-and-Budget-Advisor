@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { FaUserShield } from 'react-icons/fa';
-import { API_BASE_URL } from '../utils/apiConfig';
 import './VerificationLock.css';
 import './VerificationLock.css';
 // import { handleError, handleSuccess } from '../utils'; // Removed unused imports
@@ -31,7 +30,7 @@ const VerificationLock = ({ children }) => {
         }
 
         try {
-            const url = `${API_BASE_URL}/auth/profile`;
+            const url = `http://localhost:8080/auth/profile`;
             const response = await fetch(url, {
                 headers: { 'Authorization': token }
             });

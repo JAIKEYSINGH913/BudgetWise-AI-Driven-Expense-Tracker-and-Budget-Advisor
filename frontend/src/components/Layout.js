@@ -3,11 +3,9 @@ import { Outlet, Link, useNavigate } from 'react-router-dom';
 import { FaBars } from 'react-icons/fa';
 import { ToastContainer } from 'react-toastify';
 import { handleSuccess } from '../utils'; // Assuming this is available
-import { API_BASE_URL } from '../utils/apiConfig';
 import Sidebar from './Sidebar';
 import FloatingStickers from './FloatingStickers';
 import BackgroundBubbles from './BackgroundBubbles';
-import Footer from './Footer';
 import '../pages/Home.css'; // Reusing global app styles including Navbar
 
 const Layout = () => {
@@ -26,7 +24,7 @@ const Layout = () => {
             document.documentElement.style.setProperty('--app-bg-color', bgColor);
         }
         if (bgImage) {
-            document.documentElement.style.setProperty('--app-bg-image', `url(${API_BASE_URL}/${bgImage})`);
+            document.documentElement.style.setProperty('--app-bg-image', `url(http://localhost:8080/${bgImage})`);
         }
         if (navbarColor) {
             document.documentElement.style.setProperty('--navbar-bg-dynamic', navbarColor);
@@ -94,7 +92,6 @@ const Layout = () => {
                 pauseOnHover
                 theme="dark"
             />
-            <Footer />
         </div >
     );
 };

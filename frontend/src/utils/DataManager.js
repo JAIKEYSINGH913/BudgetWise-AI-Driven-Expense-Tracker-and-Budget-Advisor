@@ -1,7 +1,6 @@
 import { handleError } from '../utils';
-import { API_BASE_URL } from './apiConfig';
 
-const BASE_URL = `${API_BASE_URL}/api`;
+const BASE_URL = 'http://localhost:8080/api';
 const STORAGE_KEYS = {
     INCOME: 'budgetwise_income',
     GOALS: 'budgetwise_goals',

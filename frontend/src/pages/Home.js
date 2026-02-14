@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom';
 // import { handleSuccess } from '../utils'; // Removed unused import
 import DataManager from '../utils/DataManager'; // Import DataManager
+import Footer from '../components/Footer';
 import './Home.css';
 
 function Home() {
@@ -104,6 +105,7 @@ function Home() {
                     </section>
                 </div>
             </main>
+            <Footer />
         </div>
     )
 }
