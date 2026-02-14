@@ -56,29 +56,46 @@ const LandingPage = () => {
             </div>
 
             {/* Timed Demo Indicator (Bottom Left Floating) */}
+            {/* Timed Demo Indicator (Top Left Circular Stopwatch) */}
             {!isLocked && (
                 <div style={{
                     position: 'fixed',
-                    bottom: '20px',
-                    left: '20px',
-                    top: 'auto',
-                    transform: 'none',
-                    background: 'rgba(0,0,0,0.6)',
-                    padding: '8px 16px',
-                    borderRadius: '50px',
+                    top: '100px', // Below navbar (approx 80px)
+                    left: '30px',
                     zIndex: 101,
-                    fontSize: '0.9rem',
-                    color: '#fff',
-                    backdropFilter: 'blur(10px)',
-                    border: '1px solid rgba(255,255,255,0.1)',
-                    boxShadow: '0 4px 15px rgba(0,0,0,0.3)',
                     display: 'flex',
+                    flexDirection: 'column',
                     alignItems: 'center',
-                    gap: '8px',
-                    fontWeight: 500
+                    gap: '8px'
                 }}>
-                    <span style={{ width: '8px', height: '8px', background: '#4caf50', borderRadius: '50%', display: 'inline-block' }}></span>
-                    Demo Session: {formatTime(timeLeft)}
+                    <div style={{
+                        width: '60px',
+                        height: '60px',
+                        borderRadius: '50%',
+                        background: `conic-gradient(#4caf50 ${(timeLeft / 600) * 100}%, rgba(255,255,255,0.1) 0)`,
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        position: 'relative',
+                        boxShadow: '0 4px 15px rgba(0,0,0,0.3)',
+                        backdropFilter: 'blur(5px)'
+                    }}>
+                        <div style={{
+                            width: '52px',
+                            height: '52px',
+                            borderRadius: '50%',
+                            background: 'rgba(0,0,0,0.8)', // Dark inner circle
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            fontSize: '0.9rem',
+                            fontWeight: 'bold',
+                            color: '#4caf50'
+                        }}>
+                            {formatTime(timeLeft)}
+                        </div>
+                    </div>
+                    <span style={{ fontSize: '0.8rem', color: '#ccc', textTransform: 'uppercase', letterSpacing: '1px', textShadow: '0 2px 4px rgba(0,0,0,0.5)' }}>Demo Session</span>
                 </div>
             )}
 
