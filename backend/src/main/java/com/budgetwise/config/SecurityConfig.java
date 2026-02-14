@@ -39,7 +39,8 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .authorizeHttpRequests(auth -> auth
-                        // Permit all auth endpoints: login, signup, verify-otp, resend-otp, forgot-password, etc.
+                        // Permit all auth endpoints: login, signup, verify-otp, resend-otp,
+                        // forgot-password, etc.
                         .requestMatchers("/auth/**").permitAll()
                         // Start serving static files for profile images from 'uploads'
                         // Since we don't have a static resource handler yet, simpler to allow all GET
@@ -78,7 +79,11 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOriginPatterns(List.of("*")); // Allow all origins for dev/test
+        configuration.setAllowedOrigins(List.of(
+                "http://localhost:3000",
+                "https://budgetwise-ai-driven-expense-tracker-and-o6ax.onrender.com", // Frontend
+                "https://budgetwise-ai-driven-expense-tracker-and.onrender.com" // Backend (self)
+        ));
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(List.of("*"));
         configuration.setAllowCredentials(true);
