@@ -3,6 +3,7 @@ import { useLocation } from 'react-router-dom';
 import { FaUser, FaEnvelope, FaPhone, FaLock, FaCamera, FaIdCard, FaSignOutAlt, FaShieldAlt, FaUserCircle } from 'react-icons/fa';
 import Sidebar from '../components/Sidebar';
 import { handleSuccess, handleError } from '../utils';
+import { API_BASE_URL } from '../utils/apiConfig';
 import FloatingStickers from '../components/FloatingStickers';
 import Footer from '../components/Footer';
 import './Profile.css';
@@ -59,7 +60,7 @@ const Profile = () => {
 
     const fetchProfile = async () => {
         try {
-            const url = "http://localhost:8080/auth/profile";
+            const url = `${API_BASE_URL}/auth/profile`;
             const headers = {
                 headers: { 'Authorization': localStorage.getItem('token') }
             }
@@ -117,7 +118,7 @@ const Profile = () => {
         }
 
         try {
-            const url = "http://localhost:8080/auth/profile/update";
+            const url = `${API_BASE_URL}/auth/profile/update`;
             const response = await fetch(url, {
                 method: "PUT",
                 headers: {
@@ -141,7 +142,7 @@ const Profile = () => {
     // OTP Logic (Email Only)
     const handleSendOtp = async (identifier) => {
         try {
-            const url = `http://localhost:8080/auth/resend-otp?email=${encodeURIComponent(identifier)}`;
+            const url = `${API_BASE_URL}/auth/resend-otp?email=${encodeURIComponent(identifier)}`;
             const response = await fetch(url, {
                 method: "POST",
                 headers: {
@@ -165,7 +166,7 @@ const Profile = () => {
     const handleVerifyOtp = async () => {
         if (!otp) return handleError('Please enter OTP');
         try {
-            const url = "http://localhost:8080/auth/verify-otp";
+            const url = `${API_BASE_URL}/auth/verify-otp`;
             const response = await fetch(url, {
                 method: "POST",
                 headers: {
@@ -200,7 +201,7 @@ const Profile = () => {
         const password = prompt("Type your password to confirm account deletion:");
         if (!password) return;
         try {
-            const url = `http://localhost:8080/auth/profile/delete`;
+            const url = `${API_BASE_URL}/auth/profile/delete`;
             const response = await fetch(url, {
                 method: "DELETE",
                 headers: { 'Content-Type': 'application/json', 'Authorization': localStorage.getItem('token') },
@@ -234,7 +235,7 @@ const Profile = () => {
                                     <div className="profile-avatar-container-small">
                                         {previewImage || user.profileImage ? (
                                             <img
-                                                src={previewImage || `http://localhost:8080/${user.profileImage}`}
+                                                src={previewImage || `${API_BASE_URL}/${user.profileImage}`}
                                                 alt="Profile"
                                                 className="profile-avatar-small"
                                             />
@@ -329,7 +330,7 @@ const Profile = () => {
                                                 <label htmlFor="profileImageInput" className="image-upload-label">
                                                     {previewImage || user.profileImage ? (
                                                         <img
-                                                            src={previewImage || `http://localhost:8080/${user.profileImage}`}
+                                                            src={previewImage || `${API_BASE_URL}/${user.profileImage}`}
                                                             alt="Upload"
                                                             className="profile-avatar-upload"
                                                         />
