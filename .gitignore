@@ -5,6 +5,8 @@ target/
 *.log
 backend/uploads/
 backend/.env
+.env
+*.env
 
 # Frontend - Node/React
 node_modules/

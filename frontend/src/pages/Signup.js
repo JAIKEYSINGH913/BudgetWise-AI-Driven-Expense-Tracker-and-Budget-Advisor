@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify';
 import { handleError, handleSuccess } from '../utils';
-import { API_BASE_URL } from '../utils/apiConfig';
 import ThemeToggle from '../components/ThemeToggle';
 import FloatingStickers from '../components/FloatingStickers';
 import BackgroundBubbles from '../components/BackgroundBubbles';
@@ -59,7 +58,7 @@ function Signup() {
 
         setIsLoading(true);
         try {
-            const url = `${API_BASE_URL}/auth/signup`;
+            const url = `http://localhost:8080/auth/signup`;
             const response = await fetch(url, {
                 method: "POST",
                 body: formData
@@ -91,7 +90,7 @@ function Signup() {
         if (!otp) return handleError("Please enter OTP");
         setIsLoading(true);
         try {
-            const url = `${API_BASE_URL}/auth/verify-otp`;
+            const url = `http://localhost:8080/auth/verify-otp`;
             const response = await fetch(url, {
                 method: "POST",
                 headers: { 'Content-Type': 'application/json' },
@@ -114,7 +113,7 @@ function Signup() {
 
     const handleResendOtp = async () => {
         try {
-            const url = `${API_BASE_URL}/auth/resend-otp?email=${encodeURIComponent(signupInfo.email)}`;
+            const url = `http://localhost:8080/auth/resend-otp?email=${encodeURIComponent(signupInfo.email)}`;
             const response = await fetch(url, { method: "POST" });
             const result = await response.json();
             if (result.success) {

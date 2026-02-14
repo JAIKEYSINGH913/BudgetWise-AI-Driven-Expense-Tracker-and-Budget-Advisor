@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { FaTimes, FaHome, FaChartPie, FaSignOutAlt, FaWallet, FaTags, FaFileAlt, FaUserCircle } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
-import { API_BASE_URL } from '../utils/apiConfig';
 import './Sidebar.css';
 import { useSound } from '../context/SoundContext';
 
@@ -133,7 +132,7 @@ const Sidebar = ({ isOpen, onClose, handleLogout }) => {
                     <div className="user-profile-preview" onClick={() => handleNavigation('/profile')} onMouseEnter={playHover} style={{ cursor: 'pointer' }}>
                         {localStorage.getItem('loggedInUserImage') ? (
                             <img
-                                src={`${API_BASE_URL}/${localStorage.getItem('loggedInUserImage')}`}
+                                src={`http://localhost:8080/${localStorage.getItem('loggedInUserImage')}`}
                                 alt="Profile"
                                 style={{ width: '30px', height: '30px', borderRadius: '50%', marginRight: '10px', objectFit: 'cover' }}
                             />
