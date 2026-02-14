@@ -9,3 +9,15 @@ The frontend is built with React and a glassmorphism-based UI, while the backend
 ##### - Category-based tracking
 ##### - Monthly & yearly analytical reports
 ##### - Secure account deletion with verification
+
+### Configuration
+To run this application, you need to set the following environment variables. You can set them in your IDE or system environment.
+
+- `MONGO_URI`: Your MongoDB connection string (e.g., `mongodb+srv://...`)
+- `MAIL_HOST`: SMTP server host (e.g., `smtp.gmail.com`)
+- `MAIL_PORT`: SMTP server port (e.g., `587`)
+- `MAIL_USERNAME`: Your email address
+- `MAIL_PASSWORD`: Your email app password
+- `JWT_SECRET`: A secure secret key for JWT signing
+- `JWT_EXPIRATION`: Token expiration time in milliseconds
+
