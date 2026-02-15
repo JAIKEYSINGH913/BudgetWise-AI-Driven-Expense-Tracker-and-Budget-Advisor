@@ -46,19 +46,19 @@ function Home() {
                                     Track your expenses, manage your budget, and achieve your financial goals with AI-driven insights. Your personal finance command center is ready.
                                 </p>
 
-                                {/* Dynamic Stats Cards */}
-                                <div style={{ display: 'flex', gap: '20px', marginTop: '20px', flexWrap: 'wrap' }}>
-                                    <div className="stat-card animate-slide-up delay-100" style={{ background: 'var(--card-bg)', padding: '15px 25px', borderRadius: '15px', backdropFilter: 'blur(5px)', border: '1px solid rgba(255,255,255,0.1)' }}>
-                                        <h3 style={{ fontSize: '0.9rem', opacity: 0.8, marginBottom: '5px' }}>Total Balance</h3>
-                                        <p style={{ fontSize: '1.5rem', fontWeight: 'bold', color: balance >= 0 ? '#4caf50' : '#ef5350' }}>${balance.toFixed(2)}</p>
+                                {/* Dynamic Stats Cards - Box Container */}
+                                <div className="stats-box-container animate-slide-up delay-100">
+                                    <div className="stat-card">
+                                        <h3 style={{ fontSize: '1rem', opacity: 0.8, marginBottom: '8px' }}>Total Balance</h3>
+                                        <p style={{ fontSize: '1.8rem', fontWeight: 'bold', color: balance >= 0 ? '#4caf50' : '#ef5350' }}>${balance.toFixed(2)}</p>
                                     </div>
-                                    <div className="stat-card animate-slide-up delay-200" style={{ background: 'var(--card-bg)', padding: '15px 25px', borderRadius: '15px', backdropFilter: 'blur(5px)', border: '1px solid rgba(255,255,255,0.1)' }}>
-                                        <h3 style={{ fontSize: '0.9rem', opacity: 0.8, marginBottom: '5px' }}>Income</h3>
-                                        <p style={{ fontSize: '1.5rem', fontWeight: 'bold', color: '#64b5f6' }}>${totalIncome.toFixed(2)}</p>
+                                    <div className="stat-card">
+                                        <h3 style={{ fontSize: '1rem', opacity: 0.8, marginBottom: '8px' }}>Income</h3>
+                                        <p style={{ fontSize: '1.8rem', fontWeight: 'bold', color: '#64b5f6' }}>${totalIncome.toFixed(2)}</p>
                                     </div>
-                                    <div className="stat-card animate-slide-up delay-300" style={{ background: 'var(--card-bg)', padding: '15px 25px', borderRadius: '15px', backdropFilter: 'blur(5px)', border: '1px solid rgba(255,255,255,0.1)' }}>
-                                        <h3 style={{ fontSize: '0.9rem', opacity: 0.8, marginBottom: '5px' }}>Bi-Weekly Spend</h3>
-                                        <p style={{ fontSize: '1.5rem', fontWeight: 'bold', color: '#ef5350' }}>${totalExpense.toFixed(2)}</p>
+                                    <div className="stat-card">
+                                        <h3 style={{ fontSize: '1rem', opacity: 0.8, marginBottom: '8px' }}>Bi-Weekly Spend</h3>
+                                        <p style={{ fontSize: '1.8rem', fontWeight: 'bold', color: '#ef5350' }}>${totalExpense.toFixed(2)}</p>
                                     </div>
                                 </div>
                             </div>
