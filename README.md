@@ -1,6 +1,6 @@
 # 💰 BudgetWise – AI-Driven Expense Tracker & Budget Advisor
 🚀 **Live Demo:**  
-https://budgetwise-ai-driven-expense-tracker-and-o6ax.onrender.com/
+https://budgetwise-jaikeysingh913.me/
 ---
 ## 📌 Overview
 **BudgetWise** is a modern full-stack financial management platform designed to help users:
@@ -72,7 +72,7 @@ MongoDB Database
 ---
 ## 🌐 Deployment
 Frontend (Render):
-https://budgetwise-ai-driven-expense-tracker-and-o6ax.onrender.com/
+https://budgetwise-jaikeysingh913.me/
 Backend deployed as a separate Render service with REST API endpoints
 
 ## 👨‍💻 Author
