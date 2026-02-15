@@ -43,7 +43,7 @@ function Home() {
                                     Welcome back, <span className="user-name">{loggedInUser}</span>
                                 </h1>
                                 <p className="welcome-subtitle">
-                                    Your personal finance command center.
+                                    Track your expenses, manage your budget, and achieve your financial goals with AI-driven insights. Your personal finance command center is ready.
                                 </p>
 
                                 {/* Dynamic Stats Cards */}
