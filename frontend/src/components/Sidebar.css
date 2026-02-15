@@ -87,8 +87,6 @@
         transform: translateX(100%);
         /* Start off-screen RIGHT */
         transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-        opacity: 1;
-        visibility: visible;
         box-shadow: -5px 0 25px rgba(0, 0, 0, 0.2);
         /* Shadow to left */
     }
