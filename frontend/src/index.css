@@ -16,23 +16,18 @@
   --border-hover: rgba(255, 255, 255, 0.2);
   --shadow-glow: 0 0 20px rgba(255, 255, 255, 0.05);
   /* Glassy Card Background */
-  --card-bg: rgba(26, 26, 26, 0.3);
+  --card-bg: rgba(26, 26, 26, 0.15);
   /* Reduced opacity for transparency */
-  --overlay-bg: rgba(10, 10, 10, 0.8);
+  --overlay-bg: rgba(10, 10, 10, 0.6);
 }
 
 :root[data-theme="light"] {
   /* Classy Light Theme - Different Gray Shades */
   --bg-primary: #e0f7fa;
-  /* Icy Blue */
-  /* Light Gray */
-  /* Very light gray - background */
-  --bg-secondary: #ffffff;
-  /* Pure white - cards */
-  --bg-tertiary: #f0f0f0;
-  /* Light gray - inputs */
-  /* Light gray - inputs */
-  --navbar-bg: rgba(255, 255, 255, 0.7);
+  --bg-secondary: rgba(255, 255, 255, 0.5);
+  --bg-tertiary: rgba(240, 240, 240, 0.5);
+
+  --navbar-bg: rgba(255, 255, 255, 0.5);
   /* Glassy transparent - navbar */
   --text-primary: #1a1a1a;
   /* Dark gray - main text */
@@ -50,9 +45,9 @@
   --border-hover: rgba(0, 0, 0, 0.2);
   /* Medium gray border */
   --shadow-glow: 0 0 20px rgba(0, 0, 0, 0.05);
-  --card-bg: #ffffff;
+  --card-bg: rgba(255, 255, 255, 0.4);
   /* White - card background */
-  --overlay-bg: #e8e8e8;
+  --overlay-bg: rgba(232, 232, 232, 0.5);
   /* Light gray - navbar overlay */
 }
 
@@ -777,4 +772,13 @@ button.btn-danger:hover {
 
 button.btn-danger::before {
   background: #ef5350;
+}
+/* Enforce Global Transparency for Product Cards */
+.product-card {
+  background: var(--card-bg) !important;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid var(--border-color);
+  border-radius: 20px;
+  transition: all 0.3s ease;
 }
