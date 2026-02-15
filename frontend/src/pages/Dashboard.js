@@ -190,7 +190,7 @@ const IncomeManager = () => {
     }
 
     return (
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.5fr', gap: '40px' }}>
+        <div className="dashboard-grid-container" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '40px' }}>
             <div className="auth-form-container" style={{ padding: '0', background: 'transparent', boxShadow: 'none' }}>
                 <h2 style={{ marginBottom: '20px' }}>Add Income Source</h2>
                 <form onSubmit={handleAdd} style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
@@ -297,7 +297,8 @@ const GoalsManager = () => {
     const displayedGoals = goals.filter(g => (g.type || 'monthly') === goalType);
 
     return (
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.5fr', gap: '40px' }}>
+        <div className="dashboard-grid-container" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '40px' }}>
+            {/* Same content... */}
             <div className="auth-form-container" style={{ padding: '0', background: 'transparent', boxShadow: 'none' }}>
                 <h2 style={{ marginBottom: '20px' }}>Set Financial Goal</h2>
 

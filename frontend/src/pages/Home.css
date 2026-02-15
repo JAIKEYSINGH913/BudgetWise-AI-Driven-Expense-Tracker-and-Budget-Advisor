@@ -650,16 +650,36 @@
   }
 
   .navbar-content {
-    padding: 10px 20px;
+    padding: 10px 15px;
     height: auto;
+    min-height: 60px;
     flex-wrap: wrap;
-    gap: 15px;
-    justify-content: center;
+    gap: 10px;
+    justify-content: space-between;
+    /* Keep logo and actions separated */
+  }
+
+  .navbar-brand {
+    transform: scale(0.9);
+    /* Slightly smaller brand on mobile */
   }
 
   .navbar-actions {
-    width: 100%;
-    justify-content: center;
+    width: auto;
+    /* Don't force full width, let it sit on the right */
+    gap: 8px;
+  }
+
+  .dashboard-btn {
+    width: 40px;
+    height: 40px;
+    font-size: 0;
+    /* Hide text on mobile */
+  }
+
+  .dashboard-btn .btn-icon {
+    font-size: 1.2rem;
+    margin: 0;
   }
 
   .home-main {

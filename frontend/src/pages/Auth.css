@@ -47,9 +47,14 @@
 
   .auth-container,
   .container {
-    width: 95% !important;
+    width: var(--container-width-mobile) !important;
     padding: 20px !important;
     margin: 10px auto !important;
+  }
+
+  .brand-title {
+    font-size: 1.8rem;
+    /* Smaller title on mobile */
   }
 }
 
