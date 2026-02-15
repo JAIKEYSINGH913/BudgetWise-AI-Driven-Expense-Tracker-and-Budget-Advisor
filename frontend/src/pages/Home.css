@@ -646,28 +646,30 @@
 
 @media (max-width: 768px) {
   .home-navbar {
-    width: 100%;
-    left: 0;
-    top: 0;
-    transform: none;
-    /* Remove centering transform */
-    border-radius: 0;
-    /* Full width bar */
+    width: 90%;
+    left: 50%;
+    top: 15px;
+    transform: translateX(-50%);
+    /* Centering transform */
+    border-radius: 50px;
+    /* Capsule Style */
     padding: 0;
-    border: none;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
   }
 
   .home-navbar.fixed-navbar {
-    width: 100%;
-    left: 0;
-    transform: none;
-    top: 0;
-    border-radius: 0;
+    width: 90%;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 15px;
+    border-radius: 50px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
   }
 
   .navbar-content {
-    padding: 10px 15px;
+    border-radius: 50px;
+    padding: 10px 20px;
     height: auto;
     min-height: 60px;
     flex-wrap: wrap;
