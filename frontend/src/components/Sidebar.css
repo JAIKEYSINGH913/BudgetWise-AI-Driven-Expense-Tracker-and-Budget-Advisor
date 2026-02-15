@@ -61,20 +61,40 @@
     /* Allow flyouts to show outside */
 }
 
+.sidebar-panel.open {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
 @media (max-width: 768px) {
     .sidebar-panel {
-        width: 85%;
-        /* Slightly less than full width */
-        right: 0;
-        left: auto;
-        /* Ensure it stays right */
-        height: auto;
-        max-height: 85vh;
-        overflow-y: auto;
-        border-radius: 20px 0 0 20px;
-        /* Rounded only on left */
-        top: 100px;
-        /* Push down a bit more */
+        position: fixed;
+        /* Fix relative to viewport, not navbar */
+        width: 100%;
+        /* Full width or mostly full */
+        max-width: 300px;
+        /* Limit width */
+        right: auto;
+        left: 0;
+        /* Align to left properly */
+        top: 80px;
+        /* Below navbar */
+        height: calc(100vh - 80px);
+        /* Full remaining height */
+        border-radius: 0 20px 20px 0;
+        /* Rounded on right */
+        transform: translateX(-100%);
+        /* Start off-screen left */
+        transition: transform 0.3s ease;
+        opacity: 1;
+        /* Handle visibility via class */
+        visibility: visible;
+    }
+
+    .sidebar-panel.open {
+        transform: translateX(0);
+        /* Slide in */
     }
 
     /* On mobile, flyout might need to be an accordion or overlap */

@@ -644,9 +644,24 @@
 
 @media (max-width: 768px) {
   .home-navbar {
-    padding: 10px 20px;
-    width: 90%;
-    top: 15px;
+    width: 100%;
+    left: 0;
+    top: 0;
+    transform: none;
+    /* Remove centering transform */
+    border-radius: 0;
+    /* Full width bar */
+    padding: 0;
+    border: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .home-navbar.fixed-navbar {
+    width: 100%;
+    left: 0;
+    transform: none;
+    top: 0;
+    border-radius: 0;
   }
 
   .navbar-content {
