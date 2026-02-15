@@ -63,13 +63,18 @@
 
 @media (max-width: 768px) {
     .sidebar-panel {
-        width: 90%;
-        /* Responsive width for mobile */
-        right: 5%;
-        /* Center horizontally */
+        width: 85%;
+        /* Slightly less than full width */
+        right: 0;
+        left: auto;
+        /* Ensure it stays right */
         height: auto;
-        max-height: 80vh;
+        max-height: 85vh;
         overflow-y: auto;
+        border-radius: 20px 0 0 20px;
+        /* Rounded only on left */
+        top: 100px;
+        /* Push down a bit more */
     }
 
     /* On mobile, flyout might need to be an accordion or overlap */

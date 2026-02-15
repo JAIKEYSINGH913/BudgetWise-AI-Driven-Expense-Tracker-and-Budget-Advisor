@@ -56,6 +56,16 @@
   /* Light gray - navbar overlay */
 }
 
+:root {
+  /* Fluid Typography & Layout Variables */
+  --font-h1: clamp(2rem, 5vw, 3rem);
+  --font-h2: clamp(1.5rem, 4vw, 2.5rem);
+  --font-h3: clamp(1.2rem, 3vw, 1.8rem);
+  --font-body: clamp(0.9rem, 1.5vw, 1rem);
+  --container-width-mobile: 92%;
+  --container-width-desktop: 100%;
+}
+
 *,
 ::before,
 ::after {
@@ -87,6 +97,7 @@ body {
   transition: background-color 0.3s ease, color 0.3s ease;
   position: relative;
   line-height: 1.6;
+  font-size: var(--font-body);
 }
 
 /* Minimal background pattern for portfolio style */
@@ -429,18 +440,26 @@ button.sticky {
 /* Responsive Design */
 @media (max-width: 768px) {
   .container {
-    padding: 40px 32px;
-    max-width: 100%;
-    margin: 0 20px;
+    padding: 30px 20px;
+    width: var(--container-width-mobile);
+    margin: 20px auto;
   }
 
   .container>h1 {
-    font-size: 2rem;
+    font-size: var(--font-h1);
   }
 
   button {
-    font-size: 13px;
-    padding: 12px 24px;
+    font-size: 0.9rem;
+    padding: 12px 20px;
+    width: 100%;
+    /* Full width buttons on mobile */
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 25px 15px;
   }
 }
 
