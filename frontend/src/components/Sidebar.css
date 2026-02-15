@@ -70,31 +70,32 @@
 @media (max-width: 768px) {
     .sidebar-panel {
         position: fixed;
-        /* Fix relative to viewport, not navbar */
-        width: 100%;
-        /* Full width or mostly full */
+        /* Fix relative to viewport */
+        width: 70%;
+        /* Adjusted width as requested */
         max-width: 300px;
-        /* Limit width */
-        right: auto;
-        left: 0;
-        /* Align to left properly */
+        right: 0;
+        /* Align to RIGHT */
+        left: auto;
+        /* Reset left */
         top: 80px;
         /* Below navbar */
         height: calc(100vh - 80px);
         /* Full remaining height */
-        border-radius: 0 20px 20px 0;
-        /* Rounded on right */
-        transform: translateX(-100%);
-        /* Start off-screen left */
-        transition: transform 0.3s ease;
+        border-radius: 20px 0 0 20px;
+        /* Rounded on LEFT */
+        transform: translateX(100%);
+        /* Start off-screen RIGHT */
+        transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
         opacity: 1;
-        /* Handle visibility via class */
         visibility: visible;
+        box-shadow: -5px 0 25px rgba(0, 0, 0, 0.2);
+        /* Shadow to left */
     }
 
     .sidebar-panel.open {
         transform: translateX(0);
-        /* Slide in */
+        /* Slide in from right */
     }
 
     /* On mobile, flyout might need to be an accordion or overlap */

@@ -5,6 +5,8 @@
   position: relative;
   z-index: 1;
   overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
 }
 
 .home-page::before {
@@ -701,6 +703,8 @@
     margin-top: 160px;
     /* More space for stacked navbar */
     padding: 0 15px 30px 15px;
+    flex-grow: 1;
+    /* Push footer down */
   }
 
   .welcome-hero {
