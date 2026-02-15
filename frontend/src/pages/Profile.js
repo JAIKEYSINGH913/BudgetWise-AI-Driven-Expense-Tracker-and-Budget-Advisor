@@ -233,11 +233,15 @@ const Profile = () => {
                             <div className="profile-mini-header">
                                 <div className="profile-avatar-wrapper">
                                     <div className="profile-avatar-container-small">
-                                        {previewImage || user.profileImage ? (
+                                        {previewImage || (user.profileImage && !user.imageLoadError) ? (
                                             <img
                                                 src={previewImage || `${API_BASE_URL}/${user.profileImage}`}
                                                 alt="Profile"
                                                 className="profile-avatar-small"
+                                                onError={(e) => {
+                                                    e.target.onerror = null;
+                                                    setUser(prev => ({ ...prev, imageLoadError: true }));
+                                                }}
                                             />
                                         ) : (
                                             <FaUserCircle className="profile-avatar-small" style={{ color: 'rgba(255,255,255,0.5)', padding: '5px' }} />
@@ -328,11 +332,15 @@ const Profile = () => {
                                         <div className="form-group center-group">
                                             <div className="image-upload-wrapper">
                                                 <label htmlFor="profileImageInput" className="image-upload-label">
-                                                    {previewImage || user.profileImage ? (
+                                                    {previewImage || (user.profileImage && !user.imageLoadError) ? (
                                                         <img
                                                             src={previewImage || `${API_BASE_URL}/${user.profileImage}`}
                                                             alt="Upload"
                                                             className="profile-avatar-upload"
+                                                            onError={(e) => {
+                                                                e.target.onerror = null;
+                                                                setUser(prev => ({ ...prev, imageLoadError: true }));
+                                                            }}
                                                         />
                                                     ) : (
                                                         <FaUserCircle className="profile-avatar-upload" style={{ color: 'rgba(255,255,255,0.5)', padding: '10px' }} />

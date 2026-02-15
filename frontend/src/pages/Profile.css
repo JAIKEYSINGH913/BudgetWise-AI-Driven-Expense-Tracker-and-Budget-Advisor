@@ -452,67 +452,161 @@ body.dark-mode .input-wrapper input:focus {
     font-size: 0.9rem;
 }
 
-/* Responsive adjustments */
+/* Responsive adjustments - Professional Mobile View */
 @media (max-width: 768px) {
+    .profile-container {
+        margin: 100px auto 40px;
+        padding: 0 16px;
+    }
+
     .profile-card-unified {
         flex-direction: column;
         height: auto;
+        min-height: auto;
+        overflow: visible;
+        /* Allow sticky elements if needed */
+        background: rgba(255, 255, 255, 0.08);
+        /* Slightly more transparent */
+        border: 1px solid rgba(255, 255, 255, 0.1);
     }
 
+    /* 1. compact Header Pane */
     .profile-sidebar-pane {
         width: 100%;
-        flex-direction: row;
+        flex-direction: column;
+        /* Stack vertically for structure */
         border-right: none;
         border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        padding: 20px;
+        padding: 30px 20px 0px;
+        /* Padding for header */
         align-items: center;
         gap: 20px;
+        background: transparent;
     }
 
     .profile-mini-header {
-        width: auto;
-        margin-bottom: 0;
-        text-align: left;
-        flex-direction: row;
+        width: 100%;
+        margin-bottom: 20px;
+        text-align: center;
+        flex-direction: column;
         gap: 15px;
+        align-items: center;
     }
 
     .profile-avatar-container-small {
-        width: 60px;
-        height: 60px;
+        width: 90px;
+        height: 90px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
     }
 
-    .status-dot {
-        width: 12px;
-        height: 12px;
+    .profile-name-small {
+        font-size: 1.5rem;
+        margin-bottom: 4px;
+    }
+
+    .profile-username-small {
+        font-size: 0.95rem;
     }
 
     .profile-join-date {
-        display: none;
+        display: block;
+        /* Show join date on mobile for completeness */
+        margin-top: 8px;
     }
 
+    /* 2. Professional Horizontal Navigation (Scrollable) */
     .profile-nav-menu {
         flex-direction: row;
-        flex-grow: 0;
-        margin-left: auto;
+        width: 100%;
+        overflow-x: auto;
+        padding-bottom: 0;
+        /* Nav sits on border */
+        gap: 10px;
+        margin-top: 10px;
+        -webkit-overflow-scrolling: touch;
+        /* Smooth scroll */
+        scrollbar-width: none;
+        /* Hide scrollbar Firefox */
+        justify-content: flex-start;
+        /* Start align for scroll */
+        border-bottom: none;
     }
 
-    .profile-nav-item span {
+    .profile-nav-menu::-webkit-scrollbar {
         display: none;
-        /* Hide text on mobile for compact nav */
+        /* Hide scrollbar Chrome/Safari */
     }
 
     .profile-nav-item {
-        padding: 10px;
         width: auto;
+        white-space: nowrap;
+        padding: 12px 20px;
+        border-radius: 20px 20px 0 0;
+        /* Tab style */
+        margin-bottom: 0;
+        background: transparent;
+        color: var(--text-secondary);
+        flex-shrink: 0;
+        border-bottom: 3px solid transparent;
+        border-radius: 0;
+        /* Reset */
+    }
+
+    .profile-nav-item span {
+        display: inline-block;
+        /* Show text */
+        margin-left: 8px;
+        font-size: 0.9rem;
+    }
+
+    .profile-nav-item .nav-icon {
+        display: inline-block;
+    }
+
+    .profile-nav-item.active {
+        background: transparent;
+        color: var(--primary-color, #6c5ce7);
+        border-bottom: 3px solid var(--primary-color, #6c5ce7);
+        box-shadow: none;
+    }
+
+    /* Hide Logout from tabs, put it elsewhere or keep as icon at end */
+    .profile-nav-item.logout {
+        margin-left: auto;
+        /* Push to end */
+        color: #e74c3c;
+        padding-right: 5px;
+    }
+
+    .profile-nav-item.logout span {
+        display: none;
+        /* Compact logout */
+    }
+
+    /* 3. Content Area */
+    .profile-content-area {
+        padding: 30px 20px 80px;
+        /* Bottom padding for mobile usage */
     }
 
     .form-grid-2 {
         grid-template-columns: 1fr;
+        gap: 20px;
     }
 
-    .profile-content-area {
-        padding: 20px;
+    .section-title {
+        font-size: 1.5rem;
+        text-align: center;
+        margin-bottom: 25px;
+    }
+
+    .info-grid {
+        grid-template-columns: 1fr;
+        /* Stack info cards */
+    }
+
+    .danger-zone-compact {
+        text-align: center;
     }
 }
 
@@ -615,3 +709,8 @@ body.light-mode .btn-cancel,
     color: white;
     border: none;
 }
+/* Mobile Navigation Indicator */
+.profile-nav-menu {
+  position: relative;
+}
+
