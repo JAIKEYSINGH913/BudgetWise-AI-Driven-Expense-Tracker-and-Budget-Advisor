@@ -82,8 +82,10 @@ public class SecurityConfig {
         configuration.setAllowedOrigins(List.of(
                 "http://localhost:3000",
                 "https://budgetwise-ai-driven-expense-tracker-and-o6ax.onrender.com", // Frontend
-                "https://budgetwise-ai-driven-expense-tracker-and.onrender.com" // Backend (self)
-        ));
+                "https://budgetwise-ai-driven-expense-tracker-and.onrender.com", // Backend (self)
+                "https://budgetwise-jaikeysingh913.me",
+                "https://www.budgetwise-jaikeysingh913.me",
+                "https://api.budgetwise-jaikeysingh913.me"));
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(List.of("*"));
         configuration.setAllowCredentials(true);
