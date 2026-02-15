@@ -299,24 +299,24 @@ const Profile = () => {
                                     <h2 className="section-title">Profile Overview</h2>
 
                                     <div className="info-grid">
-                                        <div className="info-item">
-                                            <div className="info-label"><FaUser /> Full Name</div>
-                                            <div className="info-value">{user.name}</div>
+                                        <div className="info-group">
+                                            <div className="info-label-outside"><FaUser /> Full Name</div>
+                                            <div className="info-value-box">{user.name}</div>
                                         </div>
-                                        <div className="info-item">
-                                            <div className="info-label">@ Username</div>
-                                            <div className="info-value">{user.username}</div>
+                                        <div className="info-group">
+                                            <div className="info-label-outside">@ Username</div>
+                                            <div className="info-value-box">{user.username}</div>
                                         </div>
-                                        <div className="info-item">
-                                            <div className="info-label"><FaEnvelope /> Email Address</div>
-                                            <div className="info-value">
+                                        <div className="info-group">
+                                            <div className="info-label-outside"><FaEnvelope /> Email Address</div>
+                                            <div className="info-value-box">
                                                 {user.email}
                                                 {user.emailVerified && <span className="badge-verified"><FaShieldAlt /> Verified</span>}
                                             </div>
                                         </div>
-                                        <div className="info-item">
-                                            <div className="info-label"><FaPhone /> Mobile Number</div>
-                                            <div className="info-value">{user.mobile || 'Not set'}</div>
+                                        <div className="info-group">
+                                            <div className="info-label-outside"><FaPhone /> Mobile Number</div>
+                                            <div className="info-value-box">{user.mobile || 'Not set'}</div>
                                         </div>
                                     </div>
                                 </div>
@@ -360,33 +360,29 @@ const Profile = () => {
 
                                         <div className="form-grid-2">
                                             <div className="form-group">
-                                                <label>Full Name</label>
+                                                <label className="info-label-outside"><FaUser /> Full Name</label>
                                                 <div className="input-wrapper">
-                                                    <FaUser className="input-icon" />
                                                     <input type="text" name="name" value={editInfo.name} onChange={handleInitialChange} placeholder="John Doe" />
                                                 </div>
                                             </div>
 
                                             <div className="form-group">
-                                                <label>Username</label>
+                                                <label className="info-label-outside">@ Username</label>
                                                 <div className="input-wrapper">
-                                                    <span className="input-icon">@</span>
                                                     <input type="text" name="username" value={editInfo.username} onChange={handleInitialChange} placeholder="username" />
                                                 </div>
                                             </div>
 
                                             <div className="form-group">
-                                                <label>Email</label>
+                                                <label className="info-label-outside"><FaEnvelope /> Email</label>
                                                 <div className="input-wrapper">
-                                                    <FaEnvelope className="input-icon" />
                                                     <input type="email" name="email" value={editInfo.email} onChange={handleInitialChange} placeholder="user@example.com" />
                                                 </div>
                                             </div>
 
                                             <div className="form-group">
-                                                <label>Mobile</label>
+                                                <label className="info-label-outside"><FaPhone /> Mobile</label>
                                                 <div className="input-wrapper">
-                                                    <FaPhone className="input-icon" />
                                                     <input type="text" name="mobile" value={editInfo.mobile} onChange={handleInitialChange} placeholder="1234567890" />
                                                 </div>
                                             </div>
@@ -395,16 +391,14 @@ const Profile = () => {
                                         <h3 className="section-subtitle">Change Password</h3>
                                         <div className="form-grid-2">
                                             <div className="form-group">
-                                                <label>Current Password</label>
+                                                <label className="info-label-outside"><FaLock /> Current Password</label>
                                                 <div className="input-wrapper">
-                                                    <FaLock className="input-icon" />
                                                     <input type="password" name="currentPassword" value={editInfo.currentPassword} onChange={handleInitialChange} placeholder="••••••" />
                                                 </div>
                                             </div>
                                             <div className="form-group">
-                                                <label>New Password</label>
+                                                <label className="info-label-outside"><FaLock /> New Password</label>
                                                 <div className="input-wrapper">
-                                                    <FaLock className="input-icon" />
                                                     <input type="password" name="newPassword" value={editInfo.newPassword} onChange={handleInitialChange} placeholder="••••••" />
                                                 </div>
                                             </div>
