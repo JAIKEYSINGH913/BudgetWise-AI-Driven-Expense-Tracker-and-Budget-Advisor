@@ -57,45 +57,17 @@ const LandingPage = () => {
 
             {/* Timed Demo Indicator (Bottom Left Floating) */}
             {/* Timed Demo Indicator (Top Left Circular Stopwatch) */}
+            {/* Timed Demo Indicator (Top Left Circular Stopwatch) - Responsive */}
             {!isLocked && (
-                <div style={{
-                    position: 'fixed',
-                    top: '100px', // Below navbar (approx 80px)
-                    left: '30px',
-                    zIndex: 101,
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                    gap: '8px'
-                }}>
-                    <div style={{
-                        width: '60px',
-                        height: '60px',
-                        borderRadius: '50%',
-                        background: `conic-gradient(#4caf50 ${(timeLeft / 600) * 100}%, rgba(255,255,255,0.1) 0)`,
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        position: 'relative',
-                        boxShadow: '0 4px 15px rgba(0,0,0,0.3)',
-                        backdropFilter: 'blur(5px)'
+                <div className="demo-clock-container">
+                    <div className="demo-clock-outer" style={{
+                        background: `conic-gradient(#4caf50 ${(timeLeft / 600) * 100}%, rgba(255,255,255,0.1) 0)`
                     }}>
-                        <div style={{
-                            width: '52px',
-                            height: '52px',
-                            borderRadius: '50%',
-                            background: 'rgba(0,0,0,0.8)', // Dark inner circle
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            fontSize: '0.9rem',
-                            fontWeight: 'bold',
-                            color: '#4caf50'
-                        }}>
+                        <div className="demo-clock-inner">
                             {formatTime(timeLeft)}
                         </div>
                     </div>
-                    <span style={{ fontSize: '0.8rem', color: '#ccc', textTransform: 'uppercase', letterSpacing: '1px', textShadow: '0 2px 4px rgba(0,0,0,0.5)' }}>Demo Session</span>
+                    <span className="demo-label">Demo Session</span>
                 </div>
             )}
 

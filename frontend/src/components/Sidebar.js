@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { FaTimes, FaHome, FaChartPie, FaSignOutAlt, FaWallet, FaTags, FaFileAlt, FaUserCircle } from 'react-icons/fa';
+import { FaTimes, FaHome, FaChartPie, FaSignOutAlt, FaWallet, FaTags, FaFileAlt, FaUserCircle, FaHeadset } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import './Sidebar.css';
 import { useSound } from '../context/SoundContext';
@@ -57,6 +57,12 @@ const Sidebar = ({ isOpen, onClose, handleLogout }) => {
                 { title: 'Monthly View', path: '/reports/monthly' },
                 { title: 'Yearly View', path: '/reports/yearly' }
             ]
+        },
+        {
+            title: 'Help Desk',
+            icon: <FaHeadset />,
+            path: '/help-desk',
+            subsections: []
         }
     ];
 

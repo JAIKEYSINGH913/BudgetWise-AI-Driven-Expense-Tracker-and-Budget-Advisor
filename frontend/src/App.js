@@ -18,6 +18,7 @@ const Expenses = lazy(() => import('./pages/Expenses'));
 const Categories = lazy(() => import('./pages/Categories'));
 const Reports = lazy(() => import('./pages/Reports'));
 const Profile = lazy(() => import('./pages/Profile'));
+const HelpDesk = lazy(() => import('./pages/HelpDesk'));
 
 // Loading Fallback Component
 const LoadingFallback = () => (
@@ -56,6 +57,7 @@ function App() {
                   <Route path='/categories/*' element={<Categories />} />
                   <Route path='/reports/*' element={<Reports />} />
                   <Route path='/profile' element={<Profile />} />
+                  <Route path='/help-desk' element={<HelpDesk />} />
                 </Route>
               </Routes>
             </Suspense>

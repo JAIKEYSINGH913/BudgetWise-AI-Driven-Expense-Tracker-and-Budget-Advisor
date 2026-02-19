@@ -32,8 +32,8 @@
     right: 0;
     /* Aligned to the right edge of the actions container */
 
-    width: 400px;
-    /* Increased to hide right overlap */
+    width: clamp(280px, 25vw, 400px);
+    /* Fluid width: shrinks on smaller screens */
     height: calc(100vh - 120px);
 
     /* Match Flyout Menu Background */

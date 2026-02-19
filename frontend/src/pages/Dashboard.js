@@ -66,90 +66,95 @@ const DashboardOverview = () => {
     }).length;
 
     return (
-        <div className="products-grid">
+        <div className="products-grid" style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(var(--card-min-width), 1fr))',
+            gap: 'var(--spacing-md)',
+            padding: 'var(--spacing-sm)'
+        }}>
             {/* 1. Remaining Budget (Monthly) */}
-            <Link to="/expenses" className="product-card" style={{ textDecoration: 'none', cursor: 'pointer', display: 'block' }}>
-                <div className="product-info">
-                    <h3 className="product-name" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                        <FaWallet style={{ color: '#6C63FF' }} /> Monthly Remaining
+            <Link to="/expenses" className="product-card" style={{ textDecoration: 'none', cursor: 'pointer', display: 'flex', flexDirection: 'column', height: '100%', padding: 'var(--spacing-md)' }}>
+                <div className="product-info" style={{ flex: 1 }}>
+                    <h3 className="product-name" style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: 'var(--font-h3)' }}>
+                        <FaWallet style={{ color: '#6C63FF', minWidth: '24px' }} /> Monthly Remaining
                     </h3>
-                    <p className="product-price" style={{ color: monthlyRemaining >= 0 ? '#4caf50' : '#ef5350', fontSize: '1.8rem' }}>
+                    <p className="product-price" style={{ color: monthlyRemaining >= 0 ? '#4caf50' : '#ef5350', fontSize: 'clamp(1.5rem, 4vw, 2.5rem)', margin: '10px 0' }}>
                         ${monthlyRemaining.toFixed(2)}
                     </p>
-                    <p style={{ opacity: 0.7, fontSize: '0.85rem', marginTop: '5px', color: 'var(--text-secondary)' }}>
+                    <p style={{ opacity: 0.7, fontSize: 'var(--font-sm)', color: 'var(--text-secondary)' }}>
                         Budget left for this month (Income - Expenses).
                     </p>
                 </div>
             </Link>
 
             {/* 2. Total Savings (Lifetime) */}
-            <Link to="/reports" className="product-card" style={{ textDecoration: 'none', cursor: 'pointer', display: 'block' }}>
-                <div className="product-info">
-                    <h3 className="product-name" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                        <FaWallet style={{ color: '#4caf50' }} /> Total Savings (Life)
+            <Link to="/reports" className="product-card" style={{ textDecoration: 'none', cursor: 'pointer', display: 'flex', flexDirection: 'column', height: '100%', padding: 'var(--spacing-md)' }}>
+                <div className="product-info" style={{ flex: 1 }}>
+                    <h3 className="product-name" style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: 'var(--font-h3)' }}>
+                        <FaWallet style={{ color: '#4caf50', minWidth: '24px' }} /> Total Savings (Life)
                     </h3>
-                    <p className="product-price" style={{ color: totalSavings >= 0 ? '#4caf50' : '#ef5350', fontSize: '1.8rem' }}>
+                    <p className="product-price" style={{ color: totalSavings >= 0 ? '#4caf50' : '#ef5350', fontSize: 'clamp(1.5rem, 4vw, 2.5rem)', margin: '10px 0' }}>
                         ${totalSavings.toFixed(2)}
                     </p>
-                    <p style={{ opacity: 0.7, fontSize: '0.85rem', marginTop: '5px', color: 'var(--text-secondary)' }}>
+                    <p style={{ opacity: 0.7, fontSize: 'var(--font-sm)', color: 'var(--text-secondary)' }}>
                         Total accumulated wealth (Lifetime Rollovers).
                     </p>
                 </div>
             </Link>
 
             {/* Total Income */}
-            <Link to="/dashboard/income" className="product-card" style={{ textDecoration: 'none', cursor: 'pointer', display: 'block' }}>
-                <div className="product-info">
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                        <h3 className="product-name" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                            <FaMoneyBillWave style={{ color: '#64b5f6' }} /> Total Income
+            <Link to="/dashboard/income" className="product-card" style={{ textDecoration: 'none', cursor: 'pointer', display: 'flex', flexDirection: 'column', height: '100%', padding: 'var(--spacing-md)' }}>
+                <div className="product-info" style={{ flex: 1 }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '10px' }}>
+                        <h3 className="product-name" style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: 'var(--font-h3)' }}>
+                            <FaMoneyBillWave style={{ color: '#64b5f6', minWidth: '24px' }} /> Total Income
                         </h3>
-                        <span style={{ fontSize: '0.8rem', color: '#64b5f6', border: '1px solid #64b5f6', padding: '2px 8px', borderRadius: '5px' }}>+ Add</span>
+                        <span style={{ fontSize: 'var(--font-sm)', color: '#64b5f6', border: '1px solid #64b5f6', padding: '2px 8px', borderRadius: '5px' }}>+ Add</span>
                     </div>
-                    <p className="product-price" style={{ color: '#64b5f6' }}>${totalIncome.toFixed(2)}</p>
-                    <p style={{ opacity: 0.7, fontSize: '0.85rem', marginTop: '5px', color: 'var(--text-secondary)' }}>
+                    <p className="product-price" style={{ color: '#64b5f6', fontSize: 'clamp(1.2rem, 3vw, 2rem)', margin: '10px 0' }}>${totalIncome.toFixed(2)}</p>
+                    <p style={{ opacity: 0.7, fontSize: 'var(--font-sm)', color: 'var(--text-secondary)' }}>
                         Total accumulated earnings from all sources.
                     </p>
                 </div>
             </Link>
 
             {/* Total Expenses */}
-            <Link to="/expenses" className="product-card" style={{ textDecoration: 'none', cursor: 'pointer', display: 'block' }}>
-                <div className="product-info">
-                    <h3 className="product-name" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                        <FaExchangeAlt style={{ color: '#ef5350' }} /> Total Expenses
+            <Link to="/expenses" className="product-card" style={{ textDecoration: 'none', cursor: 'pointer', display: 'flex', flexDirection: 'column', height: '100%', padding: 'var(--spacing-md)' }}>
+                <div className="product-info" style={{ flex: 1 }}>
+                    <h3 className="product-name" style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: 'var(--font-h3)' }}>
+                        <FaExchangeAlt style={{ color: '#ef5350', minWidth: '24px' }} /> Total Expenses
                     </h3>
-                    <p className="product-price" style={{ color: '#ef5350' }}>${totalExpenses.toFixed(2)}</p>
-                    <p style={{ opacity: 0.7, fontSize: '0.85rem', marginTop: '5px', color: 'var(--text-secondary)' }}>
+                    <p className="product-price" style={{ color: '#ef5350', fontSize: 'clamp(1.2rem, 3vw, 2rem)', margin: '10px 0' }}>${totalExpenses.toFixed(2)}</p>
+                    <p style={{ opacity: 0.7, fontSize: 'var(--font-sm)', color: 'var(--text-secondary)' }}>
                         Cumulative spending across all categories.
                     </p>
                 </div>
             </Link>
 
-            {/* Financial Goals -> Link to Goals Manager */}
-            <Link to="/dashboard/goals" className="product-card" style={{ textDecoration: 'none', cursor: 'pointer', display: 'block' }}>
-                <div className="product-info">
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                        <h3 className="product-name" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                            <FaChartLine style={{ color: '#ff9800' }} /> Financial Goals
+            {/* Financial Goals */}
+            <Link to="/dashboard/goals" className="product-card" style={{ textDecoration: 'none', cursor: 'pointer', display: 'flex', flexDirection: 'column', height: '100%', padding: 'var(--spacing-md)' }}>
+                <div className="product-info" style={{ flex: 1 }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '10px' }}>
+                        <h3 className="product-name" style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: 'var(--font-h3)' }}>
+                            <FaChartLine style={{ color: '#ff9800', minWidth: '24px' }} /> Financial Goals
                         </h3>
-                        <span style={{ fontSize: '0.8rem', color: 'var(--text-primary)', border: '1px solid var(--border-color)', padding: '2px 8px', borderRadius: '5px' }}>Manage</span>
+                        <span style={{ fontSize: 'var(--font-sm)', color: 'var(--text-primary)', border: '1px solid var(--border-color)', padding: '2px 8px', borderRadius: '5px' }}>Manage</span>
                     </div>
-                    <p className="product-price">{goalsAchieved} / {goals.length} On Track</p>
-                    <p style={{ opacity: 0.7, fontSize: '0.85rem', marginTop: '5px', color: 'var(--text-secondary)' }}>
+                    <p className="product-price" style={{ fontSize: 'clamp(1rem, 2.5vw, 1.5rem)', margin: '10px 0' }}>{goalsAchieved} / {goals.length} On Track</p>
+                    <p style={{ opacity: 0.7, fontSize: 'var(--font-sm)', color: 'var(--text-secondary)' }}>
                         Track progress towards your savings targets.
                     </p>
                 </div>
             </Link>
 
             {/* Profile Shortcut */}
-            <Link to="/dashboard/profile" className="product-card" style={{ textDecoration: 'none', cursor: 'pointer', display: 'block' }}>
-                <div className="product-info">
-                    <h3 className="product-name" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                        <FaUserCircle style={{ color: '#9c27b0' }} /> Profile Overview
+            <Link to="/dashboard/profile" className="product-card" style={{ textDecoration: 'none', cursor: 'pointer', display: 'flex', flexDirection: 'column', height: '100%', padding: 'var(--spacing-md)' }}>
+                <div className="product-info" style={{ flex: 1 }}>
+                    <h3 className="product-name" style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: 'var(--font-h3)' }}>
+                        <FaUserCircle style={{ color: '#9c27b0', minWidth: '24px' }} /> Profile Overview
                     </h3>
-                    <p className="product-price" style={{ fontSize: '1.2rem', marginTop: '10px' }}>Settings & Customization</p>
-                    <p style={{ opacity: 0.7, fontSize: '0.85rem', marginTop: '5px', color: 'var(--text-secondary)' }}>
+                    <p className="product-price" style={{ fontSize: 'clamp(1rem, 2.5vw, 1.5rem)', marginTop: '10px' }}>Settings & Customization</p>
+                    <p style={{ opacity: 0.7, fontSize: 'var(--font-sm)', marginTop: '5px', color: 'var(--text-secondary)' }}>
                         Manage appearance, export data, and verification.
                     </p>
                 </div>
