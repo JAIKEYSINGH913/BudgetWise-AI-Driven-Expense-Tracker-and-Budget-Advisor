@@ -234,9 +234,8 @@ public class UserService {
     }
 
     // NEW: Resend OTP (for unauthenticated/unverified users via email)
-    public void resendOtp(String email) {
-        User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+    public void resendOtp(String identifier) {
+        User user = getUser(identifier);
 
         if (user.isEmailVerified()) {
             throw new RuntimeException("Email already verified");

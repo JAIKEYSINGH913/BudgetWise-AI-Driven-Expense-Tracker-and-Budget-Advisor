@@ -23,8 +23,7 @@ public class AuthController {
             @RequestPart("username") String username,
             @RequestPart("password") String password,
             @RequestPart(value = "mobile", required = false) String mobile,
-            @RequestPart(value = "profileImage", required = false) MultipartFile profileImage
-    ) {
+            @RequestPart(value = "profileImage", required = false) MultipartFile profileImage) {
         AuthDto.SignupRequest request = new AuthDto.SignupRequest();
         request.setName(name);
         request.setEmail(email);
@@ -43,32 +42,32 @@ public class AuthController {
         int status = response.isSuccess() ? 200 : (response.getMessage().contains("verified") ? 403 : 401);
         return ResponseEntity.status(status).body(response);
     }
-    
+
     @PostMapping("/resend-otp")
-    public ResponseEntity<?> resendOtp(@RequestParam String email) {
+    public ResponseEntity<?> resendOtp(@RequestParam String identifier) {
         try {
-            userService.resendOtp(email);
+            userService.resendOtp(identifier);
             return ResponseEntity.ok(Map.of("success", true, "message", "OTP resent successfully"));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(Map.of("success", false, "message", e.getMessage()));
         }
     }
-    
+
     // Pass-through for verify-otp if not authenticated yet (e.g. signup flow)
     // Pass-through for verify-otp if not authenticated yet (e.g. signup flow)
     @PostMapping("/verify-otp")
     public ResponseEntity<?> verifyOtp(@RequestBody Map<String, String> payload) {
-         String identifier = payload.get("identifier"); // email or mobile
-         String otp = payload.get("otp");
-         boolean verified = userService.verifyOtp(identifier, otp);
-         if (verified) {
-             return ResponseEntity.ok(Map.of("success", true, "message", "Verified successfully"));
-         }
-         return ResponseEntity.badRequest().body(Map.of("success", false, "message", "Invalid or expired OTP"));
+        String identifier = payload.get("identifier"); // email or mobile
+        String otp = payload.get("otp");
+        boolean verified = userService.verifyOtp(identifier, otp);
+        if (verified) {
+            return ResponseEntity.ok(Map.of("success", true, "message", "Verified successfully"));
+        }
+        return ResponseEntity.badRequest().body(Map.of("success", false, "message", "Invalid or expired OTP"));
     }
-    
+
     // --- Forgot Password Endpoints ---
-    
+
     @PostMapping("/forgot-password")
     public ResponseEntity<?> forgotPassword(@RequestBody Map<String, String> payload) {
         String identifier = payload.get("identifier");
@@ -81,7 +80,7 @@ public class AuthController {
             return ResponseEntity.badRequest().body(Map.of("success", false, "message", e.getMessage()));
         }
     }
-    
+
     @PostMapping("/verify-reset-otp")
     public ResponseEntity<?> verifyResetOtp(@RequestBody Map<String, String> payload) {
         String identifier = payload.get("identifier");
@@ -93,7 +92,7 @@ public class AuthController {
             return ResponseEntity.badRequest().body(Map.of("success", false, "message", e.getMessage()));
         }
     }
-    
+
     @PostMapping("/reset-password")
     public ResponseEntity<?> resetPassword(@RequestBody Map<String, String> payload) {
         String token = payload.get("token");

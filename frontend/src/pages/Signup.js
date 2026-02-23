@@ -26,6 +26,18 @@ function Signup() {
     const [showOtpModal, setShowOtpModal] = useState(false);
     const [otp, setOtp] = useState('');
     const [isLoading, setIsLoading] = useState(false);
+    const [resendTimer, setResendTimer] = useState(0);
+
+    // Timer effect
+    React.useEffect(() => {
+        let interval;
+        if (resendTimer > 0) {
+            interval = setInterval(() => {
+                setResendTimer((prev) => prev - 1);
+            }, 1000);
+        }
+        return () => clearInterval(interval);
+    }, [resendTimer]);
 
     const navigate = useNavigate();
     const { playClick, playSuccess, playError } = useSound();
@@ -57,6 +69,7 @@ function Signup() {
         if (signupInfo.mobile) formData.append('mobile', signupInfo.mobile);
         if (profileImage) formData.append('profileImage', profileImage);
 
+        if (isLoading) return;
         setIsLoading(true);
         try {
             const url = `${API_BASE_URL}/auth/signup`;
@@ -89,6 +102,7 @@ function Signup() {
 
     const handleVerifyOtp = async () => {
         if (!otp) return handleError("Please enter OTP");
+        if (isLoading) return;
         setIsLoading(true);
         try {
             const url = `${API_BASE_URL}/auth/verify-otp`;
@@ -113,16 +127,22 @@ function Signup() {
     }
 
     const handleResendOtp = async () => {
+        if (resendTimer > 0) return handleError(`Please wait ${resendTimer} seconds`);
+        if (isLoading) return;
+        setIsLoading(true);
         try {
-            const url = `${API_BASE_URL}/auth/resend-otp?email=${encodeURIComponent(signupInfo.email)}`;
+            const url = `${API_BASE_URL}/auth/resend-otp?identifier=${encodeURIComponent(signupInfo.email)}`;
             const response = await fetch(url, { method: "POST" });
             const result = await response.json();
+            setIsLoading(false);
             if (result.success) {
+                setResendTimer(60);
                 handleSuccess("OTP resent successfully");
             } else {
                 handleError(result.message);
             }
         } catch (err) {
+            setIsLoading(false);
             handleError(err.message);
         }
     }
@@ -253,9 +273,11 @@ function Signup() {
                                 {isLoading ? 'Verifying...' : 'Verify'}
                             </button>
                             {/* Disabled Cancel mostly to force verification, but allow exit to login? */}
-                            <button onClick={() => navigate('/login')} className="btn-cancel">Cancel</button>
+                            <button onClick={() => navigate('/login')} className="btn-cancel" disabled={isLoading}>Cancel</button>
                         </div>
-                        <button onClick={handleResendOtp} className="btn-link">Resend Code</button>
+                        <button onClick={handleResendOtp} className="btn-link" disabled={isLoading || resendTimer > 0}>
+                            {resendTimer > 0 ? `Resend Code (${resendTimer}s)` : 'Resend Code'}
+                        </button>
                     </div>
                 </div>
             )}

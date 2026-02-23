@@ -1,23 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
-import { FaPaperPlane, FaRobot, FaUser, FaTicketAlt, FaHistory, FaPlus, FaChevronDown, FaChevronUp } from 'react-icons/fa';
+import { FaPaperPlane, FaRobot, FaTicketAlt, FaHistory, FaPlus } from 'react-icons/fa';
 import { API_BASE_URL } from '../utils/apiConfig';
 import { toast } from 'react-toastify';
+import './Home.css';
 
-const Container = styled.div`
-  padding: var(--spacing-md);
-  height: calc(100vh - 80px);
-  display: flex;
-  flex-direction: column;
-  background-color: var(--background-primary);
-  color: var(--text-primary);
-  gap: var(--spacing-sm);
-  
-  @media (max-width: 768px) {
-    padding: var(--spacing-sm);
-    height: calc(100vh - 60px);
-  }
-`;
 
 const Header = styled.div`
   margin-bottom: var(--spacing-sm);
@@ -346,83 +333,87 @@ const HelpDesk = () => {
   ];
 
   return (
-    <Container>
-      <Header>
-        <h2>Help & Support Center</h2>
-      </Header>
+    <div className="home-content-wrapper" style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
+      <main className="home-main">
+        <div className="home-glass-panel" style={{ width: '100%', display: 'flex', flexDirection: 'column', gap: 'var(--spacing-sm)', padding: '2rem' }}>
+          <Header>
+            <h2 style={{ margin: 0, fontSize: 'clamp(2rem, 3vw, 2.5rem)', fontWeight: 300, letterSpacing: '1px', textTransform: 'uppercase' }}>Help & Support Center</h2>
+          </Header>
 
-      <TabContainer>
-        <Tab active={activeTab === 'chat'} onClick={() => setActiveTab('chat')}>
-          <FaRobot style={{ marginRight: '8px' }} /> AI Chat Assistant
-        </Tab>
-        <Tab active={activeTab === 'tickets'} onClick={() => setActiveTab('tickets')}>
-          <FaTicketAlt style={{ marginRight: '8px' }} /> Support Tickets
-        </Tab>
-      </TabContainer>
+          <TabContainer>
+            <Tab active={activeTab === 'chat'} onClick={() => setActiveTab('chat')}>
+              <FaRobot style={{ marginRight: '8px' }} /> AI Chat Assistant
+            </Tab>
+            <Tab active={activeTab === 'tickets'} onClick={() => setActiveTab('tickets')}>
+              <FaTicketAlt style={{ marginRight: '8px' }} /> Support Tickets
+            </Tab>
+          </TabContainer>
 
-      {activeTab === 'chat' ? (
-        <ChatWindow>
-          <ChatHeader><FaRobot /> BudgetWise Assistant</ChatHeader>
-          <MessagesArea>
-            {messages.map((msg) => (
-              <MessageBubble key={msg.id} isUser={msg.isUser}>
-                {msg.text}
-              </MessageBubble>
-            ))}
-            {isLoading && <LoadingDots><span></span><span></span><span></span></LoadingDots>}
-            <div ref={messagesEndRef} />
-          </MessagesArea>
-          <QuickHelpContainer>
-            {quickActions.map((action, i) => (
-              <QuickActionChip key={i} onClick={() => sendMessage(action)}>
-                {action}
-              </QuickActionChip>
-            ))}
-          </QuickHelpContainer>
-          <InputArea onSubmit={handleChatSubmit}>
-            <Input value={inputValue} onChange={(e) => setInputValue(e.target.value)} placeholder="Ask anything about BudgetWise..." disabled={isLoading} />
-            <SendButton type="submit" disabled={isLoading}><FaPaperPlane /></SendButton>
-          </InputArea>
-        </ChatWindow>
-      ) : (
-        <TicketContainer>
-          <TicketConfig>
-            <FormTitle><FaPlus /> Raise a New Ticket</FormTitle>
-            <form onSubmit={handleTicketSubmit}>
-              <FormGroup>
-                <label>Subject / Issue Type</label>
-                <Input value={subject} onChange={(e) => setSubject(e.target.value)} placeholder="e.g., App Crash, Billing Issue" />
-              </FormGroup>
-              <FormGroup>
-                <label>Detailed Description</label>
-                <textarea value={description} onChange={(e) => setDescription(e.target.value)} placeholder="Please allow us to help you..." />
-              </FormGroup>
-              <SubmitButton type="submit" disabled={ticketLoading}>
-                {ticketLoading ? 'Submitting...' : 'Submit Ticket'}
-              </SubmitButton>
-            </form>
-          </TicketConfig>
-          <HistorySection>
-            <FormTitle><FaHistory /> Ticket History</FormTitle>
-            <div style={{ overflowY: 'auto', flex: 1 }}>
-              {tickets.length === 0 ? <p style={{ color: '#666', textAlign: 'center', marginTop: '2rem' }}>No tickets found.</p> :
-                tickets.map(ticket => (
-                  <TicketCard key={ticket.id}>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '5px' }}>
-                      <strong>{ticket.subject}</strong>
-                      <StatusBadge status={ticket.status}>{ticket.status}</StatusBadge>
-                    </div>
-                    <p style={{ fontSize: '0.85rem', color: '#666', margin: 0 }}>{ticket.description.substring(0, 50)}...</p>
-                    <small style={{ display: 'block', marginTop: '5px', color: '#999' }}>
-                      {new Date(ticket.createdAt).toLocaleDateString()}
-                    </small>
-                  </TicketCard>
+          {activeTab === 'chat' ? (
+            <ChatWindow>
+              <ChatHeader><FaRobot /> BudgetWise Assistant</ChatHeader>
+              <MessagesArea>
+                {messages.map((msg) => (
+                  <MessageBubble key={msg.id} isUser={msg.isUser}>
+                    {msg.text}
+                  </MessageBubble>
                 ))}
-            </div>
-          </HistorySection>
-        </TicketContainer>
-      )}
-    </Container>
+                {isLoading && <LoadingDots><span></span><span></span><span></span></LoadingDots>}
+                <div ref={messagesEndRef} />
+              </MessagesArea>
+              <QuickHelpContainer>
+                {quickActions.map((action, i) => (
+                  <QuickActionChip key={i} onClick={() => sendMessage(action)}>
+                    {action}
+                  </QuickActionChip>
+                ))}
+              </QuickHelpContainer>
+              <InputArea onSubmit={handleChatSubmit}>
+                <Input value={inputValue} onChange={(e) => setInputValue(e.target.value)} placeholder="Ask anything about BudgetWise..." disabled={isLoading} />
+                <SendButton type="submit" disabled={isLoading}><FaPaperPlane /></SendButton>
+              </InputArea>
+            </ChatWindow>
+          ) : (
+            <TicketContainer>
+              <TicketConfig>
+                <FormTitle><FaPlus /> Raise a New Ticket</FormTitle>
+                <form onSubmit={handleTicketSubmit}>
+                  <FormGroup>
+                    <label>Subject / Issue Type</label>
+                    <Input value={subject} onChange={(e) => setSubject(e.target.value)} placeholder="e.g., App Crash, Billing Issue" />
+                  </FormGroup>
+                  <FormGroup>
+                    <label>Detailed Description</label>
+                    <textarea value={description} onChange={(e) => setDescription(e.target.value)} placeholder="Please allow us to help you..." />
+                  </FormGroup>
+                  <SubmitButton type="submit" disabled={ticketLoading}>
+                    {ticketLoading ? 'Submitting...' : 'Submit Ticket'}
+                  </SubmitButton>
+                </form>
+              </TicketConfig>
+              <HistorySection>
+                <FormTitle><FaHistory /> Ticket History</FormTitle>
+                <div style={{ overflowY: 'auto', flex: 1 }}>
+                  {tickets.length === 0 ? <p style={{ color: '#666', textAlign: 'center', marginTop: '2rem' }}>No tickets found.</p> :
+                    tickets.map(ticket => (
+                      <TicketCard key={ticket.id}>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '5px' }}>
+                          <strong>{ticket.subject}</strong>
+                          <StatusBadge status={ticket.status}>{ticket.status}</StatusBadge>
+                        </div>
+                        <p style={{ fontSize: '0.85rem', color: '#666', margin: 0 }}>{ticket.description.substring(0, 50)}...</p>
+                        <small style={{ display: 'block', marginTop: '5px', color: '#999' }}>
+                          {new Date(ticket.createdAt).toLocaleDateString()}
+                        </small>
+                      </TicketCard>
+                    ))}
+                </div>
+              </HistorySection>
+            </TicketContainer>
+          )}
+        </div>
+      </main>
+    </div>
   );
 };
 

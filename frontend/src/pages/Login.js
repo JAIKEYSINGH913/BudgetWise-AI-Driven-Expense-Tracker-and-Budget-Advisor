@@ -23,6 +23,19 @@ function Login() {
     const [showOtpModal, setShowOtpModal] = useState(false);
     const [otp, setOtp] = useState('');
     const [emailForVerification, setEmailForVerification] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
+    const [resendTimer, setResendTimer] = useState(0);
+
+    // Timer effect
+    React.useEffect(() => {
+        let interval;
+        if (resendTimer > 0) {
+            interval = setInterval(() => {
+                setResendTimer((prev) => prev - 1);
+            }, 1000);
+        }
+        return () => clearInterval(interval);
+    }, [resendTimer]);
 
     const navigate = useNavigate();
     const { playClick, playSuccess, playError } = useSound();
@@ -37,10 +50,12 @@ function Login() {
     const handleLogin = async (e) => {
         e.preventDefault();
         playClick();
+        if (isLoading) return;
         const { email, password } = loginInfo;
         if (!email || !password) {
             return handleError('email and password are required')
         }
+        setIsLoading(true);
         try {
             const url = `${API_BASE_URL}/auth/login`;
             const response = await fetch(url, {
@@ -54,6 +69,7 @@ function Login() {
                 })
             });
             const result = await response.json();
+            setIsLoading(false);
             const { success, message, token, error } = result;
 
             if (success) {
@@ -92,6 +108,7 @@ function Login() {
                 handleError(message);
             }
         } catch (err) {
+            setIsLoading(false);
             playError();
             handleError(err.message || 'An error occurred');
         }
@@ -106,6 +123,8 @@ function Login() {
 
     const handleVerifyOtp = async () => {
         if (!otp || !emailForVerification) return handleError("Please enter email and OTP");
+        if (isLoading) return;
+        setIsLoading(true);
         try {
             const url = `${API_BASE_URL}/auth/verify-otp`;
             const response = await fetch(url, {
@@ -114,6 +133,7 @@ function Login() {
                 body: JSON.stringify({ identifier: emailForVerification, otp })
             });
             const result = await response.json();
+            setIsLoading(false);
             if (result.success) {
                 handleSuccess("Verification successful! You can now login.");
                 setShowOtpModal(false);
@@ -122,22 +142,29 @@ function Login() {
                 handleError(result.message);
             }
         } catch (err) {
+            setIsLoading(false);
             handleError(err.message);
         }
     }
 
     const handleResendOtp = async () => {
         if (!emailForVerification) return handleError("Please enter your email first");
+        if (resendTimer > 0) return handleError(`Please wait ${resendTimer} seconds`);
+        if (isLoading) return;
+        setIsLoading(true);
         try {
-            const url = `${API_BASE_URL}/auth/resend-otp?email=${encodeURIComponent(emailForVerification)}`;
+            const url = `${API_BASE_URL}/auth/resend-otp?identifier=${encodeURIComponent(emailForVerification)}`;
             const response = await fetch(url, { method: "POST" });
             const result = await response.json();
+            setIsLoading(false);
             if (result.success) {
+                setResendTimer(60);
                 handleSuccess("OTP resent successfully");
             } else {
                 handleError(result.message);
             }
         } catch (err) {
+            setIsLoading(false);
             handleError(err.message);
         }
     }
@@ -145,6 +172,9 @@ function Login() {
     // Forgot Password Handlers
     const handleForgotRequest = async () => {
         if (!emailForVerification) return handleError("Please enter your email or username");
+        if (resendTimer > 0) return handleError(`Please wait ${resendTimer} seconds`);
+        if (isLoading) return;
+        setIsLoading(true);
         try {
             const url = `${API_BASE_URL}/auth/forgot-password`;
             const response = await fetch(url, {
@@ -153,7 +183,9 @@ function Login() {
                 body: JSON.stringify({ identifier: emailForVerification })
             });
             const result = await response.json();
+            setIsLoading(false);
             if (result.success) {
+                setResendTimer(60);
                 handleSuccess("OTP sent to your email");
                 setForgotPasswordStep(2); // Move to Verify step
                 setOtp('');
@@ -161,12 +193,15 @@ function Login() {
                 handleError(result.message || "User not found");
             }
         } catch (err) {
+            setIsLoading(false);
             handleError(err.message);
         }
     }
 
     const handleForgotVerify = async () => {
         if (!otp) return handleError("Please enter OTP");
+        if (isLoading) return;
+        setIsLoading(true);
         try {
             const url = `${API_BASE_URL}/auth/verify-reset-otp`;
             const response = await fetch(url, {
@@ -175,6 +210,7 @@ function Login() {
                 body: JSON.stringify({ identifier: emailForVerification, otp })
             });
             const result = await response.json();
+            setIsLoading(false);
             if (result.success) {
                 setResetToken(result.token); // Save secure token
                 setForgotPasswordStep(3); // Move to Reset step
@@ -183,6 +219,7 @@ function Login() {
                 handleError(result.message);
             }
         } catch (err) {
+            setIsLoading(false);
             handleError(err.message);
         }
     }
@@ -190,7 +227,9 @@ function Login() {
     const handleForgotReset = async () => {
         if (!newPassword || !confirmPassword) return handleError("Please fill all fields");
         if (newPassword !== confirmPassword) return handleError("Passwords do not match");
+        if (isLoading) return;
 
+        setIsLoading(true);
         try {
             const url = `${API_BASE_URL}/auth/reset-password`;
             const response = await fetch(url, {
@@ -199,6 +238,7 @@ function Login() {
                 body: JSON.stringify({ token: resetToken, newPassword })
             });
             const result = await response.json();
+            setIsLoading(false);
             if (result.success) {
                 handleSuccess("Password reset successfully! Please login.");
                 setShowOtpModal(false);
@@ -208,6 +248,7 @@ function Login() {
                 handleError(result.message);
             }
         } catch (err) {
+            setIsLoading(false);
             handleError(err.message);
         }
     }
@@ -266,7 +307,9 @@ function Login() {
                             Forgot Password?
                         </span>
                     </div>
-                    <button type='submit' className="sticky animate-slide-up delay-400">Login</button>
+                    <button type='submit' className="sticky animate-slide-up delay-400" disabled={isLoading}>
+                        {isLoading ? 'Processing...' : 'Login'}
+                    </button>
                     <div className="auth-footer animate-slide-up delay-500">
                         <span>Don't have an account? <Link to="/signup" onClick={playClick}>Sign Up</Link></span>
                     </div>
@@ -301,10 +344,14 @@ function Login() {
                                     maxLength={6}
                                 />
                                 <div className="otp-actions">
-                                    <button onClick={handleVerifyOtp} className="btn-verify-confirm">Verify</button>
-                                    <button onClick={() => setShowOtpModal(false)} className="btn-cancel">Cancel</button>
+                                    <button onClick={handleVerifyOtp} className="btn-verify-confirm" disabled={isLoading}>
+                                        {isLoading ? 'Verifying...' : 'Verify'}
+                                    </button>
+                                    <button onClick={() => setShowOtpModal(false)} className="btn-cancel" disabled={isLoading}>Cancel</button>
                                 </div>
-                                <button onClick={handleResendOtp} className="btn-link">Resend Code</button>
+                                <button onClick={handleResendOtp} className="btn-link" disabled={isLoading || resendTimer > 0}>
+                                    {resendTimer > 0 ? `Resend Code (${resendTimer}s)` : 'Resend Code'}
+                                </button>
                             </>
                         )}
 
@@ -321,8 +368,10 @@ function Login() {
                                     style={{ fontSize: '1.2rem', padding: '12px' }}
                                 />
                                 <div className="otp-actions">
-                                    <button onClick={handleForgotRequest} className="btn-verify-confirm">Send OTP</button>
-                                    <button onClick={() => { setShowOtpModal(false); setForgotPasswordStep(0); }} className="btn-cancel">Cancel</button>
+                                    <button onClick={handleForgotRequest} className="btn-verify-confirm" disabled={isLoading || resendTimer > 0}>
+                                        {isLoading ? 'Sending...' : (resendTimer > 0 ? `Please Wait (${resendTimer}s)` : 'Send OTP')}
+                                    </button>
+                                    <button onClick={() => { setShowOtpModal(false); setForgotPasswordStep(0); }} className="btn-cancel" disabled={isLoading}>Cancel</button>
                                 </div>
                             </>
                         )}
@@ -340,8 +389,10 @@ function Login() {
                                     maxLength={6}
                                 />
                                 <div className="otp-actions">
-                                    <button onClick={handleForgotVerify} className="btn-verify-confirm">Verify</button>
-                                    <button onClick={() => setForgotPasswordStep(1)} className="btn-cancel">Back</button>
+                                    <button onClick={handleForgotVerify} className="btn-verify-confirm" disabled={isLoading}>
+                                        {isLoading ? 'Verifying...' : 'Verify'}
+                                    </button>
+                                    <button onClick={() => setForgotPasswordStep(1)} className="btn-cancel" disabled={isLoading}>Back</button>
                                 </div>
                             </>
                         )}
@@ -387,8 +438,10 @@ function Login() {
                                     </span>
                                 </div>
                                 <div className="otp-actions" style={{ marginTop: '20px' }}>
-                                    <button type="submit" className="btn-verify-confirm">Set Password</button>
-                                    <button type="button" onClick={() => { setShowOtpModal(false); setForgotPasswordStep(0); }} className="btn-cancel">Cancel</button>
+                                    <button type="submit" className="btn-verify-confirm" disabled={isLoading}>
+                                        {isLoading ? 'Processing...' : 'Set Password'}
+                                    </button>
+                                    <button type="button" onClick={() => { setShowOtpModal(false); setForgotPasswordStep(0); }} className="btn-cancel" disabled={isLoading}>Cancel</button>
                                 </div>
                             </form>
                         )}
