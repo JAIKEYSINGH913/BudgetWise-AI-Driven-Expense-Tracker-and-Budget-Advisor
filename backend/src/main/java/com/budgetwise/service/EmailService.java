@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -15,6 +16,7 @@ public class EmailService {
     @Value("${spring.mail.username}")
     private String fromEmail;
 
+    @Async
     public void sendOtpEmail(String toEmail, String otp) {
         System.out.println("DEBUG: Entering sendOtpEmail for " + toEmail);
         SimpleMailMessage message = new SimpleMailMessage();
@@ -28,11 +30,12 @@ public class EmailService {
             mailSender.send(message);
             System.out.println("DEBUG: Email sent successfully to " + toEmail);
         } catch (Exception e) {
-            System.err.println("Failed to send email to " + toEmail + ": " + e.getMessage());
-            // In a real app, you might want to throw an exception or handle this gracefully
+            System.err.println("CRITICAL ERROR: Failed to send email to " + toEmail);
+            e.printStackTrace(); // This will help identify port blocks/auth failures on Render
         }
     }
 
+    @Async
     public void sendSimpleEmail(String toEmail, String subject, String body) {
         System.out.println("DEBUG: Entering sendSimpleEmail for " + toEmail);
         SimpleMailMessage message = new SimpleMailMessage();
@@ -46,7 +49,8 @@ public class EmailService {
             mailSender.send(message);
             System.out.println("DEBUG: Simple email sent successfully to " + toEmail);
         } catch (Exception e) {
-            System.err.println("Failed to send email to " + toEmail + ": " + e.getMessage());
+            System.err.println("CRITICAL ERROR: Failed to send simple email to " + toEmail);
+            e.printStackTrace();
         }
     }
 }
