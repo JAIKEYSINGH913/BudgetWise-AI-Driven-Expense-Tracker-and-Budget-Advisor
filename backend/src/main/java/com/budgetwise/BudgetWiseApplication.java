@@ -29,6 +29,8 @@ public class BudgetWiseApplication {
 							}
 						});
 				System.out.println("Successfully loaded native .env file configurations.");
+				System.out.println("DEBUG: MAIL_HOST=" + System.getProperty("MAIL_HOST"));
+				System.out.println("DEBUG: MAIL_USERNAME=" + System.getProperty("MAIL_USERNAME"));
 			} catch (Exception e) {
 				System.err.println("Failed to parse native .env file: " + e.getMessage());
 			}

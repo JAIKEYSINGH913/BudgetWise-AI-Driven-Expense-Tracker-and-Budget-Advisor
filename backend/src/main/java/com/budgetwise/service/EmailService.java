@@ -18,6 +18,7 @@ public class EmailService {
 
     @Async
     public void sendOtpEmail(String toEmail, String otp) {
+        System.out.println("DEBUG: Entering sendOtpEmail for " + toEmail);
         SimpleMailMessage message = new SimpleMailMessage();
         message.setFrom(fromEmail);
         message.setTo(toEmail);
@@ -25,7 +26,9 @@ public class EmailService {
         message.setText("Your OTP for BudgetWise verification is: " + otp + "\n\nThis OTP is valid for 5 minutes.");
 
         try {
+            System.out.println("DEBUG: Attempting to send email to " + toEmail + " from " + fromEmail);
             mailSender.send(message);
+            System.out.println("DEBUG: Email sent successfully to " + toEmail);
         } catch (Exception e) {
             System.err.println("Failed to send email to " + toEmail + ": " + e.getMessage());
             // In a real app, you might want to throw an exception or handle this gracefully
@@ -34,6 +37,7 @@ public class EmailService {
 
     @Async
     public void sendSimpleEmail(String toEmail, String subject, String body) {
+        System.out.println("DEBUG: Entering sendSimpleEmail for " + toEmail);
         SimpleMailMessage message = new SimpleMailMessage();
         message.setFrom(fromEmail);
         message.setTo(toEmail);
@@ -41,7 +45,9 @@ public class EmailService {
         message.setText(body);
 
         try {
+            System.out.println("DEBUG: Attempting to send simple email to " + toEmail + " from " + fromEmail);
             mailSender.send(message);
+            System.out.println("DEBUG: Simple email sent successfully to " + toEmail);
         } catch (Exception e) {
             System.err.println("Failed to send email to " + toEmail + ": " + e.getMessage());
         }
