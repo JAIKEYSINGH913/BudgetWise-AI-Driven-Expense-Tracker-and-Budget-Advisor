@@ -3,6 +3,7 @@ package com.budgetwise.service;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -21,7 +22,14 @@ public class AIService {
 
     private static final String GEMINI_API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=";
 
-    private final RestTemplate restTemplate = new RestTemplate();
+    private final RestTemplate restTemplate;
+
+    public AIService(RestTemplateBuilder restTemplateBuilder) {
+        this.restTemplate = restTemplateBuilder
+                .setConnectTimeout(java.time.Duration.ofSeconds(10))
+                .setReadTimeout(java.time.Duration.ofSeconds(60)) // Give Gemini 60 seconds to respond
+                .build();
+    }
 
     public String getChatResponse(String userMessage) {
         if (apiKey == null || apiKey.isEmpty() || apiKey.equals("your-api-key-here")) {
@@ -40,7 +48,6 @@ public class AIService {
                     +
                     "Keep answers concise and helpful.\n\nUser Question: ";
 
-            // Construct Gemini Request Body
             Map<String, Object> requestBody = new HashMap<>();
 
             Map<String, Object> part = new HashMap<>();
