@@ -277,10 +277,14 @@ public class UserService {
 
     public String verifyResetOtp(String identifier, String otp) {
         User user = getUser(identifier);
+        System.out
+                .println("DEBUG: Verifying reset OTP for user: " + user.getEmail() + " with identifier: " + identifier);
         if (otpService.verifyOtp(user.getEmail(), otp)) { // Verify against email OTP
             // Generate Reset Token
+            System.out.println("DEBUG: Reset OTP verified successfully for: " + user.getEmail());
             return jwtUtil.generateResetToken(user.getEmail());
         }
+        System.out.println("DEBUG: Reset OTP verification failed for: " + user.getEmail());
         throw new RuntimeException("Invalid or expired OTP");
     }
 
