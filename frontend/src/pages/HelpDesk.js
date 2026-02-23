@@ -19,45 +19,59 @@ const TabContainer = styled.div`
 
 const Tab = styled.button`
   padding: 0.75rem 1.5rem;
-  border: none;
-  background: ${props => props.active ? 'var(--primary-color, #4a90e2)' : 'var(--background-secondary, #ffffff)'};
-  color: ${props => props.active ? 'white' : 'var(--text-secondary, #666)'};
+  border: 1px solid rgba(255,255,255,0.1);
+  background: ${props => props.active ? 'var(--primary-color)' : 'rgba(255,255,255,0.05)'};
+  color: ${props => props.active ? 'white' : 'var(--text-primary)'};
   border-radius: var(--radius-lg);
   cursor: pointer;
   font-weight: 600;
   transition: all 0.2s;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
   font-size: var(--font-body);
   flex: 1;
+  backdrop-filter: blur(10px);
   min-width: 150px;
 
   &:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    transform: translateY(-2px);
+    background: ${props => props.active ? 'var(--primary-color)' : 'rgba(255,255,255,0.1)'};
   }
 `;
 
 // Chat Styles
 const ChatWindow = styled.div`
   flex: 1;
-  background: var(--background-secondary, #ffffff);
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
   border-radius: var(--radius-lg);
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  border: 1px solid var(--border-color, #e0e0e0);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  
+  [data-theme="light"] & {
+    background: rgba(255, 255, 255, 0.4);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+  }
 `;
 
 const ChatHeader = styled.div`
   padding: var(--spacing-sm) var(--spacing-md);
-  background: var(--primary-color, #4a90e2);
-  color: white;
+  background: rgba(0, 0, 0, 0.2);
+  color: var(--text-primary);
   display: flex;
   align-items: center;
   gap: var(--spacing-sm);
-  font-weight: 500;
+  font-weight: 600;
   font-size: var(--font-h3);
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+  
+  [data-theme="light"] & {
+    background: rgba(255, 255, 255, 0.6);
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+  }
 `;
 
 const MessagesArea = styled.div`
@@ -75,9 +89,17 @@ const MessageBubble = styled.div`
   border-radius: var(--radius-lg);
   line-height: 1.5;
   align-self: ${props => props.isUser ? 'flex-end' : 'flex-start'};
-  background: ${props => props.isUser ? 'var(--primary-color, #4a90e2)' : 'var(--background-tertiary, #f0f2f5)'};
-  color: ${props => props.isUser ? 'white' : 'var(--text-primary, #333)'};
+  background: ${props => props.isUser ? 'var(--primary-color)' : 'rgba(255, 255, 255, 0.08)'};
+  color: ${props => props.isUser ? 'white' : 'var(--text-primary)'};
+  border: 1px solid ${props => props.isUser ? 'transparent' : 'rgba(255, 255, 255, 0.1)'};
+  backdrop-filter: ${props => props.isUser ? 'none' : 'blur(10px)'};
   font-size: var(--font-body);
+  
+  [data-theme="light"] & {
+    background: ${props => props.isUser ? 'var(--primary-color)' : 'rgba(255, 255, 255, 0.8)'};
+    border: 1px solid ${props => props.isUser ? 'transparent' : 'rgba(0, 0, 0, 0.05)'};
+    box-shadow: ${props => props.isUser ? 'none' : '0 2px 5px rgba(0,0,0,0.02)'};
+  }
 `;
 
 const LoadingDots = styled.div`
@@ -85,7 +107,7 @@ const LoadingDots = styled.div`
   gap: 4px;
   padding: 10px;
   span {
-    width: 8px; height: 8px; background: #999; border-radius: 50%;
+    width: 8px; height: 8px; background: var(--text-muted); border-radius: 50%;
     animation: bounce 1.4s infinite ease-in-out both;
   }
   span:nth-child(1) { animation-delay: -0.32s; }
@@ -98,46 +120,106 @@ const QuickHelpContainer = styled.div`
   display: flex;
   gap: var(--spacing-sm);
   overflow-x: auto;
-  background: var(--background-secondary);
-  border-top: 1px solid var(--border-color);
+  background: rgba(0, 0, 0, 0.1);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  
+  [data-theme="light"] & {
+    background: rgba(255, 255, 255, 0.3);
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+  }
   
   &::-webkit-scrollbar { height: 4px; }
-  &::-webkit-scrollbar-thumb { background: #ccc; border-radius: 2px; }
+  &::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 2px; }
 `;
 
 const QuickActionChip = styled.button`
   padding: 0.4rem 0.8rem;
   border: 1px solid var(--primary-color);
-  background: transparent;
-  color: var(--primary-color);
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(5px);
+  color: var(--text-primary);
   border-radius: 20px;
   font-size: var(--font-sm);
   white-space: nowrap;
   cursor: pointer;
   transition: all 0.2s;
   
-  &:hover { background: var(--primary-color); color: white; }
+  &:hover { background: var(--primary-color); color: white; transform: translateY(-1px); }
+  
+  [data-theme="light"] & {
+    background: rgba(255, 255, 255, 0.7);
+  }
 `;
 
 const InputArea = styled.form`
-  padding: var(--spacing-sm);
-  background: var(--background-secondary, #ffffff);
-  border-top: 1px solid var(--border-color, #e0e0e0);
+  padding: var(--spacing-md);
+  background: rgba(0, 0, 0, 0.2);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
   display: flex;
   gap: var(--spacing-sm);
+  
+  [data-theme="light"] & {
+    background: rgba(255, 255, 255, 0.6);
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+  }
 `;
 
 const Input = styled.input`
-  flex: 1; padding: 0.75rem 1rem; border-radius: 20px;
-  border: 1px solid var(--border-color, #ccc); outline: none;
+  flex: 1; 
+  padding: 0.8rem 1.2rem; 
+  border-radius: 25px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1); 
+  color: var(--text-primary);
+  outline: none;
   font-size: var(--font-body);
+  transition: all 0.2s;
+  
+  &:focus {
+    background: rgba(255,255,255,0.08);
+    border-color: var(--primary-color);
+  }
+  
+  &::placeholder { color: var(--text-muted); }
+
+  [data-theme="light"] & {
+    background: rgba(255, 255, 255, 0.8);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    
+    &:focus {
+      background: #ffffff;
+      border-color: var(--primary-color);
+    }
+  }
 `;
 
 const SendButton = styled.button`
-  background: var(--primary-color, #4a90e2);
-  color: white; border: none; width: 45px; height: 45px;
-  border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer;
-  &:disabled { background: #ccc; }
+  background: var(--primary-color);
+  color: white; 
+  border: none; 
+  width: 48px; 
+  height: 48px;
+  border-radius: 50%; 
+  display: flex; 
+  align-items: center; 
+  justify-content: center; 
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  
+  &:hover:not(:disabled) { 
+    transform: scale(1.05); 
+    background: var(--primary-dark, #3a7bc8);
+  }
+  &:disabled { 
+    background: rgba(255,255,255,0.1); 
+    color: var(--text-muted);
+    cursor: not-allowed; 
+  }
+  
+  [data-theme="light"] &:disabled {
+    background: rgba(0,0,0,0.1);
+  }
 `;
 
 // Ticket Styles
@@ -155,21 +237,37 @@ const TicketContainer = styled.div`
 
 const TicketConfig = styled.div`
   flex: 1;
-  background: var(--background-secondary);
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
   border-radius: var(--radius-lg);
   padding: var(--spacing-md);
-  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  box-shadow: 0 8px 32px 0 rgba(0,0,0,0.1);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   overflow-y: auto;
+  
+  [data-theme="light"] & {
+    background: rgba(255, 255, 255, 0.4);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+  }
 `;
 
 const HistorySection = styled.div`
   flex: 1;
-  background: var(--background-secondary);
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
   border-radius: var(--radius-lg);
   padding: var(--spacing-md);
-  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  box-shadow: 0 8px 32px 0 rgba(0,0,0,0.1);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   display: flex;
   flex-direction: column;
+  
+  [data-theme="light"] & {
+    background: rgba(255, 255, 255, 0.4);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+  }
 `;
 
 const FormTitle = styled.h3`
@@ -181,15 +279,33 @@ const FormTitle = styled.h3`
 
 const FormGroup = styled.div`
   margin-bottom: var(--spacing-sm);
-  label { display: block; margin-bottom: 0.5rem; font-weight: 500; font-size: var(--font-sm); }
+  label { 
+    display: block; 
+    margin-bottom: 0.5rem; 
+    font-weight: 500; 
+    font-size: var(--font-sm);
+    color: var(--text-primary);
+  }
   input, textarea, select {
     width: 100%; padding: 0.75rem; border-radius: 8px;
-    border: 1px solid var(--border-color, #ccc);
-    background: var(--background-input, #fff);
-     color: var(--text-primary, #333);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--text-primary);
     outline: none;
     font-size: var(--font-body);
-    &:focus { border-color: var(--primary-color); }
+    transition: all 0.2s;
+    
+    &:focus { 
+      border-color: var(--primary-color); 
+      background: rgba(255, 255, 255, 0.08);
+    }
+    
+    [data-theme="light"] & {
+      background: rgba(255, 255, 255, 0.5);
+      border: 1px solid rgba(0, 0, 0, 0.1);
+      
+      &:focus { background: #ffffff; }
+    }
   }
   textarea { height: 120px; resize: vertical; }
 `;
@@ -205,13 +321,25 @@ const SubmitButton = styled.button`
 `;
 
 const TicketCard = styled.div`
-  padding: var(--spacing-sm);
-  border: 1px solid var(--border-color, #eee);
-  border-radius: 8px;
-  margin-bottom: 0.8rem;
-  background: var(--background-tertiary, #f9f9f9);
-  transition: transform 0.1s;
-  &:hover { transform: translateX(4px); border-left: 3px solid var(--primary-color); }
+  padding: var(--spacing-md);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-lg);
+  margin-bottom: 1rem;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  transition: all 0.2s;
+  
+  &:hover { 
+    transform: translateY(-2px); 
+    border-color: var(--primary-color); 
+    background: rgba(255, 255, 255, 0.08);
+  }
+  
+  [data-theme="light"] & {
+    background: rgba(255, 255, 255, 0.6);
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    &:hover { background: #ffffff; border-color: var(--primary-color); }
+  }
 `;
 
 const StatusBadge = styled.span`
