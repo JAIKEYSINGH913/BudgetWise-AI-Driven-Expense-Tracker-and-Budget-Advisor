@@ -30,8 +30,8 @@ public class EmailService {
             mailSender.send(message);
             System.out.println("DEBUG: Email sent successfully to " + toEmail);
         } catch (Exception e) {
-            System.err.println("CRITICAL ERROR: Failed to send email to " + toEmail);
-            e.printStackTrace(); // This will help identify port blocks/auth failures on Render
+            System.err.println("Failed to send email to " + toEmail + ": " + e.getMessage());
+            // In a real app, you might want to throw an exception or handle this gracefully
         }
     }
 
@@ -49,8 +49,7 @@ public class EmailService {
             mailSender.send(message);
             System.out.println("DEBUG: Simple email sent successfully to " + toEmail);
         } catch (Exception e) {
-            System.err.println("CRITICAL ERROR: Failed to send simple email to " + toEmail);
-            e.printStackTrace();
+            System.err.println("Failed to send email to " + toEmail + ": " + e.getMessage());
         }
     }
 }
