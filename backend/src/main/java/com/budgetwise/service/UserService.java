@@ -179,6 +179,9 @@ public class UserService {
                 return new ProfileDto.ProfileResponse(false, "Invalid current password", null);
             }
             user.setPassword(passwordEncoder.encode(request.getNewPassword()));
+            // Notify User
+            emailService.sendSimpleEmail(user.getEmail(), "Security Alert: Password Changed",
+                    "Your BudgetWise password was updated via the profile settings. If this wasn't you, please secure your account.");
         }
 
         // Handle Profile Image Update
