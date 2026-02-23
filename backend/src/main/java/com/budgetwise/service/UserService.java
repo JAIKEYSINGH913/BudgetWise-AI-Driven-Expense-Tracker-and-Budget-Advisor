@@ -91,8 +91,11 @@ public class UserService {
     }
 
     public AuthDto.AuthResponse login(AuthDto.LoginRequest request) {
-        // Find by Email or Username in a single query
-        Optional<User> userOpt = userRepository.findByEmailOrUsername(request.getIdentifier(), request.getIdentifier());
+        // Find by Email or Username
+        Optional<User> userOpt = userRepository.findByEmail(request.getIdentifier());
+        if (userOpt.isEmpty()) {
+            userOpt = userRepository.findByUsername(request.getIdentifier());
+        }
 
         if (userOpt.isPresent()) {
             User user = userOpt.get();

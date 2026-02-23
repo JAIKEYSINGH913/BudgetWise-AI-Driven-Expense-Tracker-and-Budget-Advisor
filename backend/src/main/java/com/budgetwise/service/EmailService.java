@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -16,7 +15,6 @@ public class EmailService {
     @Value("${spring.mail.username}")
     private String fromEmail;
 
-    @Async
     public void sendOtpEmail(String toEmail, String otp) {
         System.out.println("DEBUG: Entering sendOtpEmail for " + toEmail);
         SimpleMailMessage message = new SimpleMailMessage();
@@ -35,7 +33,6 @@ public class EmailService {
         }
     }
 
-    @Async
     public void sendSimpleEmail(String toEmail, String subject, String body) {
         System.out.println("DEBUG: Entering sendSimpleEmail for " + toEmail);
         SimpleMailMessage message = new SimpleMailMessage();
