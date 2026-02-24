@@ -4,6 +4,9 @@ target/
 .mvn/
 *.log
 backend/uploads/
+backend/.env
+.env
+*.env
 backend/token.json
 
 # Frontend - Node/React
