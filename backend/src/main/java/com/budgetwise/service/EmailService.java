@@ -31,7 +31,7 @@ public class EmailService {
             System.out.println("DEBUG: Email sent successfully to " + toEmail);
         } catch (Exception e) {
             System.err.println("Failed to send email to " + toEmail + ": " + e.getMessage());
-            // In a real app, you might want to throw an exception or handle this gracefully
+            e.printStackTrace();
         }
     }
 
@@ -50,6 +50,7 @@ public class EmailService {
             System.out.println("DEBUG: Simple email sent successfully to " + toEmail);
         } catch (Exception e) {
             System.err.println("Failed to send email to " + toEmail + ": " + e.getMessage());
+            e.printStackTrace();
         }
     }
 }
