@@ -281,13 +281,25 @@ body[data-theme="dark"] .otp-input {
 }
 
 .btn-verify-confirm {
-  background: var(--primary-color, #6c5ce7);
-  color: white;
+  background: transparent;
+  color: var(--text-primary);
+  border: 1px solid var(--accent-color);
+}
+
+.btn-verify-confirm:hover {
+  background: var(--accent-color);
+  color: var(--bg-primary);
 }
 
 .btn-cancel {
-  background: #e74c3c;
-  color: white;
+  background: transparent;
+  color: var(--text-secondary);
+  border: 1px solid var(--text-secondary);
+}
+
+.btn-cancel:hover {
+  background: var(--text-secondary);
+  color: var(--bg-primary);
 }
 
 .btn-link {

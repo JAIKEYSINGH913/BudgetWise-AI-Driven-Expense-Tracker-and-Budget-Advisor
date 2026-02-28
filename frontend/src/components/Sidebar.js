@@ -138,15 +138,7 @@ const Sidebar = ({ isOpen, onClose, handleLogout }) => {
                     </button>
                     <button className="menu-item" onClick={() => handleNavigation('/profile')} onMouseEnter={playHover}>
                         <span className="item-icon">
-                            {localStorage.getItem('loggedInUserImage') ? (
-                                <img
-                                    src={`${API_BASE_URL}/${localStorage.getItem('loggedInUserImage')}`}
-                                    alt="Profile"
-                                    style={{ width: '24px', height: '24px', borderRadius: '50%', objectFit: 'cover' }}
-                                />
-                            ) : (
-                                <FaUserCircle />
-                            )}
+                            <FaUserCircle />
                         </span>
                         <span className="item-text">My Profile</span>
                     </button>

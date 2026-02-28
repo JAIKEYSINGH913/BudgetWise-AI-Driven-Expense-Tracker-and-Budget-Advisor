@@ -1,54 +1,41 @@
 /* Portfolio-Style Theme Variables */
 :root[data-theme="dark"] {
-  /* Black & Gray Portfolio Theme */
+  /* High Contrast Dark Theme */
   --bg-primary: #000000;
-  /* Custom Dark Charcoal Blue */
-  /* Dark Charcoal */
-  --bg-secondary: #1a1a1a;
-  --bg-tertiary: #2a2a2a;
+  --bg-secondary: #0a0a0a;
+  --bg-tertiary: #141414;
   --text-primary: #ffffff;
-  --text-secondary: #b3b3b3;
-  --text-muted: #808080;
+  --text-secondary: #cccccc;
+  --text-muted: #888888;
   --accent-color: #ffffff;
   --accent-gradient: linear-gradient(135deg, #ffffff 0%, #e0e0e0 50%, #b3b3b3 100%);
-  --accent-hover: #f0f0f0;
-  --border-color: rgba(255, 255, 255, 0.1);
-  --border-hover: rgba(255, 255, 255, 0.2);
+  --accent-hover: #b3b3b3;
+  --border-color: rgba(255, 255, 255, 0.2);
+  --border-hover: rgba(255, 255, 255, 0.4);
   --shadow-glow: 0 0 20px rgba(255, 255, 255, 0.05);
   /* Glassy Card Background */
-  --card-bg: rgba(26, 26, 26, 0.15);
-  /* Reduced opacity for transparency */
-  --overlay-bg: rgba(10, 10, 10, 0.6);
+  --card-bg: rgba(30, 30, 30, 0.2);
+  --overlay-bg: rgba(0, 0, 0, 0.7);
 }
 
 :root[data-theme="light"] {
-  /* Classy Light Theme - Different Gray Shades */
-  --bg-primary: #e0f7fa;
-  --bg-secondary: rgba(255, 255, 255, 0.5);
-  --bg-tertiary: rgba(240, 240, 240, 0.5);
+  /* High Contrast Light Theme */
+  --bg-primary: #f5f5f5;
+  --bg-secondary: rgba(255, 255, 255, 0.9);
+  --bg-tertiary: rgba(240, 240, 240, 0.9);
 
-  --navbar-bg: rgba(255, 255, 255, 0.5);
-  /* Glassy transparent - navbar */
-  --text-primary: #1a1a1a;
-  /* Dark gray - main text */
-  --text-secondary: #4a4a4a;
-  /* Medium gray - secondary text */
-  --text-muted: #6b6b6b;
-  /* Lighter gray - muted text */
-  --accent-color: #2c2c2c;
-  /* Dark gray - accents */
-  --accent-gradient: linear-gradient(135deg, #2c2c2c 0%, #4a4a4a 50%, #6b6b6b 100%);
-  --accent-hover: #1a1a1a;
-  /* Very dark gray - hover */
-  --border-color: rgba(0, 0, 0, 0.1);
-  /* Light gray border */
-  --border-hover: rgba(0, 0, 0, 0.2);
-  /* Medium gray border */
+  --navbar-bg: rgba(255, 255, 255, 0.8);
+  --text-primary: #000000;
+  --text-secondary: #333333;
+  --text-muted: #666666;
+  --accent-color: #000000;
+  --accent-gradient: linear-gradient(135deg, #000000 0%, #333333 50%, #666666 100%);
+  --accent-hover: #333333;
+  --border-color: rgba(0, 0, 0, 0.2);
+  --border-hover: rgba(0, 0, 0, 0.4);
   --shadow-glow: 0 0 20px rgba(0, 0, 0, 0.05);
-  --card-bg: rgba(255, 255, 255, 0.4);
-  /* White - card background */
-  --overlay-bg: rgba(232, 232, 232, 0.5);
-  /* Light gray - navbar overlay */
+  --card-bg: rgba(255, 255, 255, 0.6);
+  --overlay-bg: rgba(255, 255, 255, 0.7);
 }
 
 :root {

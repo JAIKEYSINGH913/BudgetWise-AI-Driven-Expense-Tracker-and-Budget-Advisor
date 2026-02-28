@@ -17,45 +17,46 @@
     width: 100%;
 }
 
-/* Unified Profile Card - Single Container */
+/* Unified Profile Card - Universal Glassmorphism */
+/* Default (Dark Mode): White Glass Gradient */
 .profile-card-unified {
     display: flex;
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(15px);
-    -webkit-backdrop-filter: blur(15px);
-    border-radius: 24px;
-    border: 1px solid #000000;
-    /* Light Mode: Black */
-    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0));
+    backdrop-filter: blur(40px);
+    -webkit-backdrop-filter: blur(40px);
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
     overflow: hidden;
     min-height: 600px;
 }
 
-body.dark-mode .profile-card-unified {
-    background: rgba(0, 0, 0, 0.4);
-    border: 1px solid rgba(255, 255, 255, 0.6);
-    /* Dark Mode: White */
-    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4);
+[data-theme="light"] .profile-card-unified {
+    /* Light Mode: Thick Plain White Transparent Glass */
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(0, 0, 0, 0.6);
+    border-bottom: 4px solid rgba(0, 0, 0, 0.3);
+    border-right: 3px solid rgba(0, 0, 0, 0.3);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
 }
 
 /* --- Left Sidebar Pane (25-30%) --- */
 .profile-sidebar-pane {
     width: 280px;
     flex-shrink: 0;
-    background: rgba(255, 255, 255, 0.05);
-    border-right: 1px solid rgba(0, 0, 0, 0.2);
-    /* Light Mode: Darker */
+    /* Removed background blocking to let glass shine through */
+    background: transparent;
+    border-right: 1px solid rgba(255, 255, 255, 0.18);
     display: flex;
     flex-direction: column;
     padding: 140px 20px 40px;
-    /* Increased top padding to prevent nav overlap */
     align-items: center;
 }
 
-body.dark-mode .profile-sidebar-pane {
-    background: rgba(0, 0, 0, 0.2);
-    border-right: 1px solid rgba(255, 255, 255, 0.6);
-    /* Dark Mode: White */
+[data-theme="light"] .profile-sidebar-pane {
+    border-right: 1px solid rgba(0, 0, 0, 0.2);
 }
 
 .profile-mini-header {
@@ -87,25 +88,6 @@ body.dark-mode .profile-sidebar-pane {
     border-radius: 50%;
     object-fit: cover;
     border: 3px solid white;
-}
-
-body.dark-mode .profile-avatar-small {
-    border-color: #2d3436;
-}
-
-.status-dot {
-    position: absolute;
-    bottom: 5px;
-    right: 5px;
-    width: 16px;
-    height: 16px;
-    border-radius: 50%;
-    border: 2px solid white;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-}
-
-body.dark-mode .status-dot {
-    border-color: #2d3436;
 }
 
 .status-dot.online {
@@ -207,11 +189,7 @@ body.dark-mode .status-dot {
     color: var(--text-primary);
     margin-bottom: 30px;
     padding-bottom: 15px;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-}
-
-body.dark-mode .section-title {
-    border-bottom-color: rgba(255, 255, 255, 0.05);
+    border-bottom: 1px solid var(--border-color);
 }
 
 /* Overview Info Grid */
@@ -222,16 +200,15 @@ body.dark-mode .section-title {
 }
 
 .info-item {
-    background: rgba(255, 255, 255, 0.5);
+    background: rgba(255, 255, 255, 0.05);
     padding: 20px;
     border-radius: 16px;
-    border: 1px solid rgba(255, 255, 255, 0.3);
+    border: 1px solid var(--border-color);
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
 }
 
-body.dark-mode .info-item {
-    background: rgba(255, 255, 255, 0.03);
-    border-color: rgba(255, 255, 255, 0.05);
+[data-theme="light"] .info-item {
+    background: rgba(255, 255, 255, 0.3);
 }
 
 .info-label {
@@ -330,27 +307,26 @@ body.dark-mode .info-item {
     width: 100%;
     padding: 14px 14px 14px 45px;
     border-radius: 12px;
-    border: 1px solid rgba(0, 0, 0, 0.1);
-    background: rgba(255, 255, 255, 0.6);
+    border: 1px solid var(--border-color);
+    background: var(--bg-tertiary);
     color: var(--text-primary);
     font-size: 1rem;
     transition: all 0.2s;
 }
 
-body.dark-mode .input-wrapper input {
-    background: rgba(0, 0, 0, 0.3);
-    border-color: rgba(255, 255, 255, 0.1);
+[data-theme="light"] .input-wrapper input {
+    background: rgba(255, 255, 255, 0.25);
 }
 
 .input-wrapper input:focus {
     outline: none;
     border-color: var(--primary-color, #6c5ce7);
-    background: white;
+    background: var(--bg-secondary);
     box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.1);
 }
 
-body.dark-mode .input-wrapper input:focus {
-    background: rgba(0, 0, 0, 0.5);
+[data-theme="light"] .input-wrapper input:focus {
+    background: #ffffff;
 }
 
 .center-group {
@@ -413,21 +389,23 @@ body.dark-mode .input-wrapper input:focus {
 }
 
 .save-btn {
-    background: var(--primary-color, #6c5ce7);
-    color: white;
-    border: none;
+    background: transparent;
+    color: var(--text-primary);
+    border: 1px solid var(--accent-color);
     padding: 14px 40px;
     border-radius: 12px;
     font-weight: 700;
     font-size: 1rem;
     cursor: pointer;
     transition: all 0.2s;
-    box-shadow: 0 4px 15px rgba(108, 92, 231, 0.3);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
 
 .save-btn:hover {
+    background: var(--accent-color);
+    color: var(--bg-primary);
     transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(108, 92, 231, 0.4);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
 }
 
 .danger-zone-compact {
@@ -693,24 +671,28 @@ body.light-mode .otp-input,
 }
 
 .btn-verify-confirm {
-    background: var(--primary-color, #6c5ce7);
-    color: white;
+    background: transparent;
+    color: var(--text-primary);
+    border: 1px solid var(--accent-color);
+}
+
+.btn-verify-confirm:hover {
+    background: var(--accent-color);
+    color: var(--bg-primary);
 }
 
 .btn-cancel {
-    background: rgba(255, 255, 255, 0.1);
-    color: white;
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: transparent;
+    color: var(--text-secondary);
+    border: 1px solid var(--text-secondary);
 }
 
-body.light-mode .btn-cancel,
-:root[data-theme="light"] .btn-cancel {
-    background: #e74c3c;
-    color: white;
-    border: none;
+.btn-cancel:hover {
+    background: var(--text-secondary);
+    color: var(--bg-primary);
 }
+
 /* Mobile Navigation Indicator */
 .profile-nav-menu {
-  position: relative;
+    position: relative;
 }
-
