@@ -26,7 +26,7 @@ public class EmailService {
             mailSender.send(message);
         } catch (Exception e) {
             System.err.println("Failed to send email to " + toEmail + ": " + e.getMessage());
-            // In a real app, you might want to throw an exception or handle this gracefully
+            throw new RuntimeException("Email delivery failed: " + e.getMessage(), e);
         }
     }
 
@@ -41,6 +41,7 @@ public class EmailService {
             mailSender.send(message);
         } catch (Exception e) {
             System.err.println("Failed to send email to " + toEmail + ": " + e.getMessage());
+            throw new RuntimeException("Email delivery failed: " + e.getMessage(), e);
         }
     }
 }
