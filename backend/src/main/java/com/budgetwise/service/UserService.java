@@ -54,6 +54,12 @@ public class UserService {
             return new AuthDto.AuthResponse(false, "Username already in use", null, null);
         }
 
+        if (!isValidPassword(request.getPassword())) {
+            return new AuthDto.AuthResponse(false,
+                    "Password must be 8+ chars: at least one uppercase, lowercase, number, and special symbol.", null,
+                    null);
+        }
+
         User user = new User();
         user.setName(request.getName());
         user.setEmail(request.getEmail());
@@ -174,14 +180,16 @@ public class UserService {
 
         // Handle Password Update
         if (request.getNewPassword() != null && !request.getNewPassword().isEmpty()) {
+            if (!isValidPassword(request.getNewPassword())) {
+                return new ProfileDto.ProfileResponse(false,
+                        "Password must be 8+ chars: at least one uppercase, lowercase, number, and special symbol.",
+                        null);
+            }
             if (request.getCurrentPassword() == null
                     || !passwordEncoder.matches(request.getCurrentPassword(), user.getPassword())) {
                 return new ProfileDto.ProfileResponse(false, "Invalid current password", null);
             }
             user.setPassword(passwordEncoder.encode(request.getNewPassword()));
-            // Notify User
-            emailService.sendSimpleEmail(user.getEmail(), "Security Alert: Password Changed",
-                    "Your BudgetWise password was updated via the profile settings. If this wasn't you, please secure your account.");
         }
 
         // Handle Profile Image Update
@@ -237,8 +245,9 @@ public class UserService {
     }
 
     // NEW: Resend OTP (for unauthenticated/unverified users via email)
-    public void resendOtp(String identifier) {
-        User user = getUser(identifier);
+    public void resendOtp(String email) {
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("User not found"));
 
         if (user.isEmailVerified()) {
             throw new RuntimeException("Email already verified");
@@ -280,14 +289,10 @@ public class UserService {
 
     public String verifyResetOtp(String identifier, String otp) {
         User user = getUser(identifier);
-        System.out
-                .println("DEBUG: Verifying reset OTP for user: " + user.getEmail() + " with identifier: " + identifier);
         if (otpService.verifyOtp(user.getEmail(), otp)) { // Verify against email OTP
             // Generate Reset Token
-            System.out.println("DEBUG: Reset OTP verified successfully for: " + user.getEmail());
             return jwtUtil.generateResetToken(user.getEmail());
         }
-        System.out.println("DEBUG: Reset OTP verification failed for: " + user.getEmail());
         throw new RuntimeException("Invalid or expired OTP");
     }
 
@@ -305,6 +310,11 @@ public class UserService {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
+        if (!isValidPassword(newPassword)) {
+            throw new RuntimeException(
+                    "Password must be 8+ chars: at least one uppercase, lowercase, number, and special symbol.");
+        }
+
         user.setPassword(passwordEncoder.encode(newPassword));
         userRepository.save(user);
 
@@ -316,6 +326,13 @@ public class UserService {
     }
 
     // --- Helpers ---
+
+    private boolean isValidPassword(String password) {
+        if (password == null)
+            return false;
+        String regex = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[^A-Za-z0-9]).{8,}$";
+        return password.matches(regex);
+    }
 
     private User getUser(String username) {
         return userRepository.findByEmail(username)
