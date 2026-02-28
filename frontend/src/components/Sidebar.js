@@ -2,8 +2,7 @@ import React, { useState } from 'react';
 import { FaTimes, FaHome, FaChartPie, FaSignOutAlt, FaWallet, FaTags, FaFileAlt, FaUserCircle, FaHeadset } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import './Sidebar.css';
-import { useSound } from '../context/SoundContext';
-import { API_BASE_URL } from '../utils/apiConfig';
+import { handleSuccess } from '../utils';
 
 const Sidebar = ({ isOpen, onClose, handleLogout }) => {
     const navigate = useNavigate();
