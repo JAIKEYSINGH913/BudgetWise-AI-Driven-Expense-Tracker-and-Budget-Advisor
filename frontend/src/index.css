@@ -118,11 +118,13 @@ body::after {
 .container {
   /* Dark Mode Default: White Glass Gradient */
   background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0));
-  padding: 48px 56px;
+  padding: clamp(20px, 5vh, 48px) clamp(20px, 5vw, 56px);
   border-radius: 20px;
   /* Slight radius for modern look matching ref */
   width: 100%;
   max-width: 450px;
+  max-height: 98vh;
+  overflow-y: auto;
   box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
   backdrop-filter: blur(40px);
   -webkit-backdrop-filter: blur(40px);

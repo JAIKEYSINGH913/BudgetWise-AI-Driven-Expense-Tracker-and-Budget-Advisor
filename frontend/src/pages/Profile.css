@@ -29,6 +29,8 @@
     box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
     overflow: hidden;
     min-height: 600px;
+    max-height: calc(100vh - 160px);
+    /* Fit cleanly inside the viewport accounting for header space */
 }
 
 [data-theme="light"] .profile-card-unified {
@@ -44,15 +46,16 @@
 
 /* --- Left Sidebar Pane (25-30%) --- */
 .profile-sidebar-pane {
-    width: 280px;
+    width: clamp(240px, 25vw, 280px);
     flex-shrink: 0;
     /* Removed background blocking to let glass shine through */
     background: transparent;
     border-right: 1px solid rgba(255, 255, 255, 0.18);
     display: flex;
     flex-direction: column;
-    padding: 140px 20px 40px;
+    padding: clamp(40px, 8vh, 140px) 20px 40px;
     align-items: center;
+    overflow-y: auto;
 }
 
 [data-theme="light"] .profile-sidebar-pane {
@@ -178,7 +181,7 @@
 /* --- Right Content Area (Remaining %) --- */
 .profile-content-area {
     flex-grow: 1;
-    padding: 40px;
+    padding: clamp(20px, 4vw, 40px);
     overflow-y: auto;
     background: transparent;
 }
