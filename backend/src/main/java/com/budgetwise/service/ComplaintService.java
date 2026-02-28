@@ -18,7 +18,7 @@ public class ComplaintService {
     @Autowired
     private EmailService emailService;
 
-    @Value("${spring.mail.username}")
+    @Value("${resend.from.email}")
     private String adminEmail; // Sending to self/admin
 
     public Complaint createComplaint(String userId, String userEmail, String subject, String description) {
