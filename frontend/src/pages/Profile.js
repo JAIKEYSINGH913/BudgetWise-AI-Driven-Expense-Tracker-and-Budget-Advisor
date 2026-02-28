@@ -298,25 +298,35 @@ const Profile = () => {
                                 <div className="profile-section overview-section animate-slide-up">
                                     <h2 className="section-title">Profile Overview</h2>
 
-                                    <div className="info-grid">
-                                        <div className="info-group">
-                                            <div className="info-label-outside"><FaUser /> Full Name</div>
-                                            <div className="info-value-box">{user.name}</div>
-                                        </div>
-                                        <div className="info-group">
-                                            <div className="info-label-outside">@ Username</div>
-                                            <div className="info-value-box">{user.username}</div>
-                                        </div>
-                                        <div className="info-group">
-                                            <div className="info-label-outside"><FaEnvelope /> Email Address</div>
-                                            <div className="info-value-box">
-                                                {user.email}
-                                                {user.emailVerified && <span className="badge-verified"><FaShieldAlt /> Verified</span>}
+                                    <div className="form-grid-2">
+                                        <div className="form-group">
+                                            <label className="info-label-outside"><FaUser /> Full Name</label>
+                                            <div className="input-wrapper">
+                                                <input type="text" value={user.name || ''} readOnly style={{ cursor: 'default' }} />
                                             </div>
                                         </div>
-                                        <div className="info-group">
-                                            <div className="info-label-outside"><FaPhone /> Mobile Number</div>
-                                            <div className="info-value-box">{user.mobile || 'Not set'}</div>
+                                        <div className="form-group">
+                                            <label className="info-label-outside">@ Username</label>
+                                            <div className="input-wrapper">
+                                                <input type="text" value={user.username || ''} readOnly style={{ cursor: 'default' }} />
+                                            </div>
+                                        </div>
+                                        <div className="form-group">
+                                            <label className="info-label-outside"><FaEnvelope /> Email Address</label>
+                                            <div className="input-wrapper" style={{ position: 'relative' }}>
+                                                <input type="email" value={user.email || ''} readOnly style={{ cursor: 'default', paddingRight: user.emailVerified ? '120px' : '45px' }} />
+                                                {user.emailVerified && (
+                                                    <span className="badge-verified" style={{ position: 'absolute', right: '10px', top: '50%', transform: 'translateY(-50%)', margin: 0 }}>
+                                                        <FaShieldAlt /> Verified
+                                                    </span>
+                                                )}
+                                            </div>
+                                        </div>
+                                        <div className="form-group">
+                                            <label className="info-label-outside"><FaPhone /> Mobile Number</label>
+                                            <div className="input-wrapper">
+                                                <input type="text" value={user.mobile || 'Not set'} readOnly style={{ cursor: 'default' }} />
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
