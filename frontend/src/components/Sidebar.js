@@ -136,18 +136,20 @@ const Sidebar = ({ isOpen, onClose, handleLogout }) => {
                         <span className="item-icon"><FaSignOutAlt /></span>
                         <span className="item-text">Logout</span>
                     </button>
-                    <div className="user-profile-preview" onClick={() => handleNavigation('/profile')} onMouseEnter={playHover} style={{ cursor: 'pointer' }}>
-                        {localStorage.getItem('loggedInUserImage') ? (
-                            <img
-                                src={`${API_BASE_URL}/${localStorage.getItem('loggedInUserImage')}`}
-                                alt="Profile"
-                                style={{ width: '30px', height: '30px', borderRadius: '50%', marginRight: '10px', objectFit: 'cover' }}
-                            />
-                        ) : (
-                            <FaUserCircle className="profile-icon" />
-                        )}
-                        <span className="profile-text">My Profile</span>
-                    </div>
+                    <button className="menu-item" onClick={() => handleNavigation('/profile')} onMouseEnter={playHover}>
+                        <span className="item-icon">
+                            {localStorage.getItem('loggedInUserImage') ? (
+                                <img
+                                    src={`${API_BASE_URL}/${localStorage.getItem('loggedInUserImage')}`}
+                                    alt="Profile"
+                                    style={{ width: '24px', height: '24px', borderRadius: '50%', objectFit: 'cover' }}
+                                />
+                            ) : (
+                                <FaUserCircle />
+                            )}
+                        </span>
+                        <span className="item-text">My Profile</span>
+                    </button>
                 </div>
             </div>
         </>
