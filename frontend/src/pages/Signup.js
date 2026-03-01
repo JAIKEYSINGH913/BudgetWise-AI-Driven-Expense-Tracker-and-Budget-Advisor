@@ -87,7 +87,7 @@ function Signup() {
                 setShowOtpModal(true); // Trigger OTP Modal
             } else if (error) {
                 playError();
-                const details = error?.details[0].message;
+                const details = error?.details?.[0]?.message || error?.message || (typeof error === 'string' ? error : "An error occurred");
                 handleError(details);
             } else if (!success) {
                 playError();
