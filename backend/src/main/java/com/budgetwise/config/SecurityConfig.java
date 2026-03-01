@@ -49,6 +49,7 @@ public class SecurityConfig {
                         // But for user uploads, we need to configure a resource handler in WebConfig.
                         // For security, let's allow access to images.
                         .requestMatchers("/uploads/**").permitAll()
+                        .requestMatchers("/error").permitAll()
                         .anyRequest().authenticated())
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
