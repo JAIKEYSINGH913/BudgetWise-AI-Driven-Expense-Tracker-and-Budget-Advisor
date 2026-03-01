@@ -88,8 +88,16 @@ public class UserService {
         // Initialize Default Categories
         categoryService.initDefaultCategories(user);
 
-        // TRIGGER OTP IMMEDIATELY
-        otpService.generateOtp(user.getEmail(), true);
+        try {
+            // TRIGGER OTP IMMEDIATELY
+            otpService.generateOtp(user.getEmail(), true);
+        } catch (Exception e) {
+            // If OTP generation fails (e.g., due to email sending issues), delete the user
+            // to allow retrying later
+            userRepository.delete(user);
+            return new AuthDto.AuthResponse(false,
+                    "Signup failed: Unable to send verification email. Please try again later.", null, null);
+        }
 
         // Return Pending Verification Status
         AuthDto.UserDto userDto = mapToUserDto(user);

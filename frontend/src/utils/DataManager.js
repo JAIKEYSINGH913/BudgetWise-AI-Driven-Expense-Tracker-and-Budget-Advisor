@@ -25,6 +25,10 @@ const DataManager = {
             });
             if (response.ok) {
                 return await response.json();
+            } else if (response.status === 401 || response.status === 403) {
+                localStorage.removeItem('token');
+                window.dispatchEvent(new Event('budgetwise_auth_change')); // Trigger a re-render for login
+                throw new Error('Unauthorized');
             } else {
                 throw new Error('Failed to fetch categories');
             }
@@ -76,6 +80,11 @@ const DataManager = {
                 headers: getHeaders()
             });
             if (response.ok) return await response.json();
+            if (response.status === 401 || response.status === 403) {
+                localStorage.removeItem('token');
+                window.dispatchEvent(new Event('budgetwise_auth_change'));
+                throw new Error('Unauthorized');
+            }
             throw new Error('Failed to fetch expenses');
         } catch (error) {
             console.error(error);
@@ -138,6 +147,11 @@ const DataManager = {
         try {
             const response = await fetch(`${BASE_URL}/incomes`, { headers: getHeaders() });
             if (response.ok) return await response.json();
+            if (response.status === 401 || response.status === 403) {
+                localStorage.removeItem('token');
+                window.dispatchEvent(new Event('budgetwise_auth_change'));
+                throw new Error('Unauthorized');
+            }
             throw new Error('Failed to fetch income');
         } catch (error) {
             console.error(error);
@@ -187,6 +201,11 @@ const DataManager = {
         try {
             const response = await fetch(`${BASE_URL}/goals`, { headers: getHeaders() });
             if (response.ok) return await response.json();
+            if (response.status === 401 || response.status === 403) {
+                localStorage.removeItem('token');
+                window.dispatchEvent(new Event('budgetwise_auth_change'));
+                throw new Error('Unauthorized');
+            }
             throw new Error('Failed to fetch goals');
         } catch (error) {
             console.error(error);
