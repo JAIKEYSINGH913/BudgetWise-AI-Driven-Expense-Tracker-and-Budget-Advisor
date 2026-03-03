@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from 'react'
 import { Link, useNavigate } from 'react-router-dom';
 import DataManager from '../utils/DataManager';
 import Footer from '../components/Footer';
-import { FaMicrophone, FaMicrophoneSlash, FaArrowRight } from 'react-icons/fa';
+import VoiceAssistantOverlay from '../components/VoiceAssistantOverlay';
 import './Home.css';
 
 const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -13,88 +13,76 @@ function Home() {
     const [totalExpense, setTotalExpense] = useState(0);
     const [balance, setBalance] = useState(0);
 
-    // Voice shortcut state
     const [isListening, setIsListening] = useState(false);
-    const [voiceHint, setVoiceHint] = useState('');
-    const [voicePulse, setVoicePulse] = useState(false);
-    const recognitionRef = useRef(null);
+    const [voiceTranscript, setVoiceTranscript] = useState('');
+    const [voiceStatus, setVoiceStatus] = useState('');
+    const recRef = useRef(null);
     const navigate = useNavigate();
 
     useEffect(() => {
-        const user = localStorage.getItem('loggedInUser');
-        setLoggedInUser(user || 'User');
+        setLoggedInUser(localStorage.getItem('loggedInUser') || 'User');
         fetchStats();
         window.addEventListener('budgetwise_data_change', fetchStats);
         return () => window.removeEventListener('budgetwise_data_change', fetchStats);
-    }, [])
+    }, []);
 
     const fetchStats = async () => {
         const inc = await DataManager.getTotalIncome();
         const exp = await DataManager.getTotalExpenses();
-        setTotalIncome(inc);
-        setTotalExpense(exp);
-        setBalance(inc - exp);
-    }
+        setTotalIncome(inc); setTotalExpense(exp); setBalance(inc - exp);
+    };
 
-    /* ---- Voice shortcut logic ---- */
-    const handleVoiceShortcut = () => {
-        if (!SpeechRecognition) {
-            setVoiceHint('❌ Voice not supported in this browser.');
-            return;
-        }
-        if (isListening) {
-            recognitionRef.current?.stop();
-            return;
-        }
-        const recognition = new SpeechRecognition();
-        recognition.lang = 'en-US';
-        recognition.interimResults = false;
-        recognitionRef.current = recognition;
-
-        recognition.onstart = () => {
-            setIsListening(true);
-            setVoicePulse(true);
-            setVoiceHint('🎙️ Listening... say "add expense", "view dashboard", "reports" etc.');
-        };
-        recognition.onresult = (event) => {
-            const text = event.results[0][0].transcript.toLowerCase();
-            setIsListening(false);
-            setVoicePulse(false);
-
-            if (text.includes('expense') || text.includes('add')) {
-                setVoiceHint(`✅ "${text}" → Going to Add Expense...`);
-                setTimeout(() => navigate('/expenses'), 800);
-            } else if (text.includes('dashboard') || text.includes('chart') || text.includes('analytic')) {
-                setVoiceHint(`✅ "${text}" → Opening Dashboard...`);
-                setTimeout(() => navigate('/dashboard'), 800);
-            } else if (text.includes('report') || text.includes('export')) {
-                setVoiceHint(`✅ "${text}" → Opening Reports...`);
-                setTimeout(() => navigate('/reports'), 800);
-            } else if (text.includes('categor')) {
-                setVoiceHint(`✅ "${text}" → Opening Categories...`);
-                setTimeout(() => navigate('/categories'), 800);
-            } else if (text.includes('income')) {
-                setVoiceHint(`✅ "${text}" → Opening Income...`);
-                setTimeout(() => navigate('/income'), 800);
-            } else if (text.includes('goal') || text.includes('saving')) {
-                setVoiceHint(`✅ "${text}" → Opening Goals...`);
-                setTimeout(() => navigate('/goals'), 800);
-            } else if (text.includes('profile')) {
-                setVoiceHint(`✅ "${text}" → Opening Profile...`);
-                setTimeout(() => navigate('/profile'), 800);
-            } else if (text.includes('help')) {
-                setVoiceHint(`✅ "${text}" → Opening Help Desk...`);
-                setTimeout(() => navigate('/helpdesk'), 800);
-            } else {
-                setVoiceHint(`❓ Didn't understand "${text}". Try: "add expense", "dashboard", "reports".`);
+    /* ---- Voice Navigation ---- */
+    const navigateByText = (text) => {
+        const map = [
+            { kw: ['expense', 'add expense', 'add spending'], path: '/expenses' },
+            { kw: ['dashboard', 'chart', 'analytic'], path: '/dashboard' },
+            { kw: ['report', 'export'], path: '/reports' },
+            { kw: ['categor'], path: '/categories' },
+            { kw: ['income'], path: '/income' },
+            { kw: ['goal', 'saving'], path: '/goals' },
+            { kw: ['profile'], path: '/profile' },
+            { kw: ['help'], path: '/helpdesk' },
+        ];
+        const t = text.toLowerCase();
+        for (const { kw, path } of map) {
+            if (kw.some(k => t.includes(k))) {
+                setVoiceStatus(`✅ Navigating to ${path.slice(1)}...`);
+                setTimeout(() => navigate(path), 700);
+                return true;
             }
+        }
+        return false;
+    };
+
+    const startListening = () => {
+        if (!SpeechRecognition) { setVoiceStatus('❌ Voice not supported. Use Chrome/Edge.'); return; }
+        const r = new SpeechRecognition();
+        r.lang = 'en-US'; r.interimResults = true; r.continuous = false;
+        recRef.current = r;
+        r.onstart = () => { setIsListening(true); setVoiceTranscript(''); setVoiceStatus('Listening for a command...'); };
+        r.onresult = (ev) => {
+            const t = Array.from(ev.results).map(x => x[0].transcript).join('');
+            setVoiceTranscript(t);
         };
-        recognition.onerror = (e) => {
-            setIsListening(false); setVoicePulse(false);
-            setVoiceHint(`❌ Error: ${e.error}`);
+        r.onend = () => {
+            setIsListening(false);
+            setVoiceStatus('Say a command: "add expense", "dashboard", "reports" etc. Click → to navigate.');
         };
-        recognition.onend = () => { setIsListening(false); setVoicePulse(false); };
-        recognition.start();
+        r.onerror = (ev) => { setIsListening(false); setVoiceStatus(`❌ Error: ${ev.error}`); };
+        r.start();
+    };
+
+    const cancelVoice = () => {
+        recRef.current?.stop();
+        setIsListening(false); setVoiceTranscript(''); setVoiceStatus('');
+    };
+
+    const submitVoice = () => {
+        if (!voiceTranscript) return;
+        const found = navigateByText(voiceTranscript);
+        if (!found) setVoiceStatus(`❓ Didn't understand "${voiceTranscript}". Try: "add expense", "dashboard".`);
+        setVoiceTranscript('');
     };
 
     return (
@@ -112,54 +100,15 @@ function Home() {
                                     Track your expenses, manage your budget, and achieve your financial goals with AI-driven insights.
                                 </p>
 
-                                {/* ---- AI Voice Shortcut Bar ---- */}
-                                <div style={{
-                                    margin: '20px 0',
-                                    padding: '16px 20px',
-                                    borderRadius: '14px',
-                                    background: isListening
-                                        ? 'rgba(239,83,80,0.12)'
-                                        : 'rgba(100,181,246,0.08)',
-                                    border: `1.5px solid ${isListening ? 'rgba(239,83,80,0.5)' : 'rgba(100,181,246,0.35)'}`,
-                                    transition: 'all 0.3s ease',
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    gap: '14px',
-                                    flexWrap: 'wrap'
-                                }}>
-                                    <button
-                                        onClick={handleVoiceShortcut}
-                                        title="AI Voice Navigation"
-                                        style={{
-                                            width: '48px', height: '48px', borderRadius: '50%', cursor: 'pointer',
-                                            border: `2px solid ${isListening ? '#ef5350' : '#64b5f6'}`,
-                                            background: isListening ? 'rgba(239,83,80,0.2)' : 'rgba(100,181,246,0.15)',
-                                            color: isListening ? '#ef5350' : '#64b5f6',
-                                            display: 'flex', alignItems: 'center', justifyContent: 'center',
-                                            flexShrink: 0, transition: 'all 0.3s ease',
-                                            boxShadow: voicePulse ? '0 0 0 8px rgba(100,181,246,0.12)' : 'none',
-                                            animation: voicePulse ? 'voicePulse 1.2s ease-in-out infinite' : 'none'
-                                        }}
-                                    >
-                                        {isListening ? <FaMicrophoneSlash size={20} /> : <FaMicrophone size={20} />}
-                                    </button>
-                                    <div style={{ flex: 1 }}>
-                                        <div style={{ color: 'var(--text-primary)', fontWeight: '600', fontSize: '0.95rem', marginBottom: '3px' }}>
-                                            AI Voice Assistant
-                                        </div>
-                                        <div style={{ color: 'var(--text-muted)', fontSize: '0.8rem' }}>
-                                            {voiceHint || 'Click the mic and say "add expense", "dashboard", "reports" and more...'}
-                                        </div>
-                                    </div>
-                                    <Link to="/expenses" style={{
-                                        display: 'flex', alignItems: 'center', gap: '6px', padding: '8px 14px',
-                                        borderRadius: '8px', background: 'rgba(100,181,246,0.15)',
-                                        border: '1px solid rgba(100,181,246,0.3)', color: '#90caf9',
-                                        textDecoration: 'none', fontSize: '0.82rem', fontWeight: '600', flexShrink: 0
-                                    }}>
-                                        Add Expense <FaArrowRight size={11} />
-                                    </Link>
-                                </div>
+                                {/* ---- AI Voice Shortcut using overlay ---- */}
+                                <VoiceAssistantOverlay
+                                    isActive={isListening}
+                                    transcript={voiceTranscript}
+                                    statusHint={voiceStatus || 'Say "add expense", "dashboard", "reports" and more to navigate instantly'}
+                                    onStart={startListening}
+                                    onCancel={cancelVoice}
+                                    onSubmit={submitVoice}
+                                />
 
                                 {/* Stats */}
                                 <div className="stats-box-container animate-slide-up delay-100">
@@ -221,14 +170,8 @@ function Home() {
                 </div>
             </main>
             <Footer />
-            <style>{`
-                @keyframes voicePulse {
-                  0%,100% { box-shadow: 0 0 0 0 rgba(100,181,246,0.4); }
-                  50% { box-shadow: 0 0 0 12px rgba(100,181,246,0); }
-                }
-            `}</style>
         </div>
-    )
+    );
 }
 
 export default Home
