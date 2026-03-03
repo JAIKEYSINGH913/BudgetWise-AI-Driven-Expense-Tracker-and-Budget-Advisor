@@ -13,42 +13,62 @@ import './Home.css';
 const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
 
 const parseVoiceTranscript = (transcript) => {
-    const text = transcript.toLowerCase();
+    const text = transcript.toLowerCase().trim();
     const result = {};
 
-    const amountMatch = text.match(/(\d+(?:\.\d+)?)/);
-    if (amountMatch) result.amount = parseFloat(amountMatch[1]);
+    // Amount: capture numbers including decimals, e.g. "50", "1500", "12.50"
+    const amountPatterns = [
+        /(?:rs\.?|rupees?|\$|dollars?|₹|spent|paid|cost|costed|costs)\s*([\d,]+(?:\.\d+)?)/i,
+        /([\d,]+(?:\.\d+)?)\s*(?:rs\.?|rupees?|\$|dollars?|₹)/i,
+        /([\d,]+(?:\.\d+)?)/,
+    ];
+    for (const p of amountPatterns) {
+        const m = text.match(p);
+        if (m) { result.amount = parseFloat(m[1].replace(/,/g, '')); break; }
+    }
 
+    // Date
     if (text.includes('today')) result.date = new Date().toISOString().split('T')[0];
     else if (text.includes('yesterday')) {
         const d = new Date(); d.setDate(d.getDate() - 1);
         result.date = d.toISOString().split('T')[0];
+    } else {
+        result.date = new Date().toISOString().split('T')[0]; // default to today
     }
 
+    // Category keyword map
     const catMap = [
-        ['food', 'grocery', 'restaurant', 'coffee', 'lunch', 'dinner', 'breakfast'],
-        ['travel', 'uber', 'taxi', 'flight', 'bus', 'fuel', 'petrol'],
-        ['shopping', 'amazon', 'mall', 'clothes', 'cloth'],
-        ['utilities', 'electric', 'water', 'internet', 'wifi', 'bill'],
-        ['health', 'doctor', 'pharmacy', 'medicine', 'hospital'],
-        ['education', 'school', 'college', 'course', 'book', 'tuition'],
-        ['entertainment', 'movie', 'netflix', 'spotify', 'game', 'cinema'],
-        ['rent', 'rent'],
-    ].map(([cat, ...kw]) => ({ cat: cat.charAt(0).toUpperCase() + cat.slice(1), kw: [cat, ...kw] }));
-
+        { cat: 'Food', kw: ['food', 'grocery', 'groceries', 'restaurant', 'coffee', 'lunch', 'dinner', 'breakfast', 'snack', 'eat', 'meal', 'pizza', 'burger', 'biryani', 'chai', 'tea'] },
+        { cat: 'Travel', kw: ['travel', 'uber', 'ola', 'taxi', 'cab', 'flight', 'bus', 'auto', 'rickshaw', 'metro', 'train', 'fuel', 'petrol', 'diesel', 'transport'] },
+        { cat: 'Shopping', kw: ['shopping', 'amazon', 'flipkart', 'mall', 'clothes', 'clothing', 'shirt', 'shoes', 'fashion', 'purchase'] },
+        { cat: 'Utilities', kw: ['utilities', 'electricity', 'electric', 'water', 'internet', 'wifi', 'broadband', 'bill', 'phone', 'recharge', 'mobile', 'gas'] },
+        { cat: 'Health', kw: ['health', 'doctor', 'pharmacy', 'medicine', 'hospital', 'clinic', 'medical', 'gym', 'fitness'] },
+        { cat: 'Education', kw: ['education', 'school', 'college', 'university', 'course', 'book', 'tuition', 'fees', 'class'] },
+        { cat: 'Entertainment', kw: ['entertainment', 'movie', 'netflix', 'spotify', 'prime', 'hotstar', 'game', 'cinema', 'concert', 'show', 'subscription'] },
+        { cat: 'Rent', kw: ['rent', 'landlord', 'pg', 'hostel', 'accommodation'] },
+        { cat: 'General', kw: [] },
+    ];
     for (const { cat, kw } of catMap) {
         if (kw.some(k => text.includes(k))) { result.category = cat; break; }
     }
+    if (!result.category) result.category = 'General';
 
+    // Title extraction — smart patterns
     const titlePatterns = [
-        /(?:spent on|paid for|bought|purchased|expense for|added)\s+([a-z\s]+?)(?:\s+for|\s+\d|$)/i,
-        /([a-zA-Z\s]{3,30})\s+(?:costed?|was|cost)/i,
+        /(?:spent on|paid for|bought|purchased|expense for|for)\s+([a-zA-Z][a-zA-Z\s]{1,35}?)(?:\s+(?:for|today|yesterday|\d)|$)/i,
+        /([a-zA-Z][a-zA-Z\s]{2,30})\s+(?:costed?|costs?|was|bill)/i,
+        /(?:add|added)\s+(?:an?\s+)?expense\s+for\s+([a-zA-Z][a-zA-Z\s]{1,35})/i,
     ];
     for (const p of titlePatterns) {
         const m = transcript.match(p);
         if (m && m[1].trim().length > 2) { result.title = m[1].trim(); break; }
     }
-    if (!result.title) result.title = transcript.slice(0, 50);
+    // Fallback: use category as title if no pattern matched
+    if (!result.title) {
+        const words = transcript.replace(/[\d.,]/g, '').trim();
+        result.title = words.length > 3 ? words.slice(0, 50) : (result.category || 'Expense');
+    }
+
     return result;
 };
 
@@ -116,18 +136,41 @@ const Expenses = () => {
     };
 
     /* ---- Voice handlers ---- */
+    const finalTranscriptRef = useRef('');
+
     const startListening = () => {
         if (!SpeechRecognition) return handleError('Voice not supported. Use Chrome or Edge.');
         const r = new SpeechRecognition();
         r.lang = 'en-US'; r.interimResults = true; r.continuous = false;
         recRef.current = r;
-        r.onstart = () => { setIsListening(true); setVoiceTranscript(''); setVoiceStatus('Listening...'); };
+        finalTranscriptRef.current = '';
+
+        r.onstart = () => { setIsListening(true); setVoiceTranscript(''); setVoiceStatus('🎙️ Listening... speak naturally'); };
+
         r.onresult = (ev) => {
             const t = Array.from(ev.results).map(x => x[0].transcript).join('');
             setVoiceTranscript(t);
+            finalTranscriptRef.current = t; // keep ref in sync for onend
         };
-        r.onend = () => { setIsListening(false); setVoiceStatus('Review and click Apply, or speak again.'); };
-        r.onerror = (ev) => { setIsListening(false); setVoiceStatus(`Error: ${ev.error}`); };
+
+        r.onend = () => {
+            setIsListening(false);
+            const t = finalTranscriptRef.current;
+            if (!t) { setVoiceStatus('⚠️ Nothing heard. Try again.'); return; }
+            // AUTO-APPLY immediately
+            const parsed = parseVoiceTranscript(t);
+            setFormData(prev => ({
+                ...prev,
+                title: parsed.title || prev.title,
+                amount: parsed.amount !== undefined ? String(parsed.amount) : prev.amount,
+                category: parsed.category || prev.category,
+                date: parsed.date || prev.date,
+            }));
+            setVoiceStatus(`✅ Auto-filled: "${t.slice(0, 60)}${t.length > 60 ? '…' : ''}"`);
+            setVoiceTranscript(''); // clear subtitle
+        };
+
+        r.onerror = (ev) => { setIsListening(false); setVoiceStatus(`❌ Error: ${ev.error}`); };
         r.start();
     };
 
@@ -136,18 +179,8 @@ const Expenses = () => {
         setIsListening(false); setVoiceTranscript(''); setVoiceStatus('');
     };
 
-    const applyVoice = () => {
-        if (!voiceTranscript) return;
-        const parsed = parseVoiceTranscript(voiceTranscript);
-        setFormData(prev => ({
-            ...prev,
-            title: parsed.title || prev.title,
-            amount: parsed.amount !== undefined ? String(parsed.amount) : prev.amount,
-            category: parsed.category || prev.category,
-            date: parsed.date || prev.date,
-        }));
-        setVoiceTranscript(''); setVoiceStatus('✅ Fields filled from voice. Review and submit.');
-    };
+    // No-op — auto-applied on end; kept for overlay prop compatibility
+    const applyVoice = () => { };
 
     /* ---- Receipt ---- */
     const handleReceiptUpload = async (e) => {

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { FaMicrophone, FaArrowRight, FaTimes } from 'react-icons/fa';
+import { FaMicrophone, FaTimes } from 'react-icons/fa';
 
 export default function VoiceAssistantOverlay({
     isActive, transcript, statusHint, onStart, onCancel, onSubmit
@@ -59,10 +59,9 @@ export default function VoiceAssistantOverlay({
                     </div>
                 </div>
 
-                {/* Single action button */}
+                {/* Single action button — only two states: Speak or Cancel */}
                 {isActive ? (
-                    /* While listening: Cancel */
-                    <button onClick={onCancel} title="Cancel voice input"
+                    <button onClick={onCancel} title="Cancel"
                         style={{
                             padding: '9px 18px', borderRadius: '10px', cursor: 'pointer',
                             border: '1.5px solid rgba(239,83,80,0.6)',
@@ -73,21 +72,7 @@ export default function VoiceAssistantOverlay({
                         }}>
                         <FaTimes size={13} /> Cancel
                     </button>
-                ) : transcript ? (
-                    /* After speaking: Submit */
-                    <button onClick={onSubmit} title="Apply voice input"
-                        style={{
-                            padding: '9px 18px', borderRadius: '10px', cursor: 'pointer',
-                            border: '1.5px solid rgba(100,181,246,0.6)',
-                            background: 'rgba(100,181,246,0.15)', color: '#64b5f6',
-                            display: 'flex', alignItems: 'center', gap: '7px',
-                            fontWeight: '600', fontSize: '0.85rem', flexShrink: 0,
-                            transition: 'all 0.2s ease'
-                        }}>
-                        Submit <FaArrowRight size={12} />
-                    </button>
                 ) : (
-                    /* Idle: Speak */
                     <button onClick={onStart} title="Start voice input"
                         style={{
                             padding: '9px 18px', borderRadius: '10px', cursor: 'pointer',
@@ -95,11 +80,12 @@ export default function VoiceAssistantOverlay({
                             background: 'rgba(100,181,246,0.1)', color: '#90caf9',
                             display: 'flex', alignItems: 'center', gap: '7px',
                             fontWeight: '600', fontSize: '0.85rem', flexShrink: 0,
-                            animation: 'none', transition: 'all 0.2s ease'
+                            transition: 'all 0.2s ease'
                         }}>
                         <FaMicrophone size={13} /> Speak
                     </button>
                 )}
+
             </div>
 
             {/* Live subtitle while listening */}
