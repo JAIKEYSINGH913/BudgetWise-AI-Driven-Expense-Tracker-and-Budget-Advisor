@@ -91,6 +91,23 @@ const DataManager = {
             return [];
         }
     },
+    scanReceipt: async (file) => {
+        try {
+            const token = localStorage.getItem('token');
+            const formData = new FormData();
+            formData.append('file', file);
+            const response = await fetch(`${BASE_URL}/expenses/scan-receipt`, {
+                method: 'POST',
+                headers: { 'Authorization': token },
+                body: formData
+            });
+            const text = await response.text();
+            return JSON.parse(text);
+        } catch (error) {
+            console.error('Receipt scan error:', error);
+            return null;
+        }
+    },
     addExpense: async (expense) => {
         try {
             const response = await fetch(`${BASE_URL}/expenses`, {
